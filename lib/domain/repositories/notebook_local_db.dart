@@ -1,9 +1,10 @@
 
 import 'package:moor/moor.dart';
-import 'package:notebook/data/resources/moor_database.dart';
 
 abstract class NotebookLocalDb {
-  Future insertNote(Insertable<Note> note);
-  Future updateNote(Insertable<Note> note);
-  Future deleteNote(Insertable<Note> note);
+  //Future<List<Note>> getAllNotes();
+  //Stream<List<Note>> watchAllNotes();
+  //Future insertNote(Insertable<Note> note);
+  //Future updateNote(Insertable<Note> note);
+  //Future deleteNote(Insertable<Note> note);
 }
