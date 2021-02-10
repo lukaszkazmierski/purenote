@@ -1,15 +1,76 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart' hide Router;
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:notebook/app.dart';
+import 'package:notebook/core/utils/routes/router.gr.dart';
 
-import 'package:flutter/material.dart';
+import 'package:notebook/presentation/blocs/book_bloc.dart';
+import 'package:notebook/presentation/widgets/add_item_btn.dart';
 
 class MainPage extends StatelessWidget {
-
   const MainPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-
+    return BlocProvider(
+      create: (_) => NotebookBloc(),
+      child: NewWidget(),
     );
   }
 }
+
+class NewWidget extends StatelessWidget {
+  const NewWidget({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('main'),
+        ),
+        body: Content(),
+        floatingActionButton: AddItemBtn(onPressed: () {
+    final book = BookTableCompanion(name: Value<String>('s'));
+    context.read<NotebookBloc>().add(AddingNewBook(book));
+    }),
+    );
+  }
+}
+
+class Content extends StatelessWidget {
+  const Content({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FractionallySizedBox(
+      widthFactor: 0.9,
+      child: FutureBuilder(
+        future: context.watch<NotebookBloc>().getAllBooks,
+        builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
+          if (snapshot.hasError || !snapshot.hasData) {
+            return CircularProgressIndicator();
+          } else if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData) {
+            return BlocBuilder<NotebookBloc, NotebookState>(
+                builder: (BuildContext context, NotebookState builder) {
+              return Container(
+                child: ListView.builder(
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ListTile(title: Text(snapshot.data[index].name));
+                    }),
+              );
+            });
+          }
+        },
+      ),
+    );
+  }
+}
+
+//ElevatedButton(onPressed: () => ExtendedNavigator.of(context).push(Routes.bookWithNotesPage)),
