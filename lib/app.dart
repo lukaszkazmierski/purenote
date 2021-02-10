@@ -1,4 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart' hide Router;
+import 'package:notebook/core/utils/routes/router.gr.dart';
 
 class App extends StatelessWidget {
 
@@ -7,7 +9,10 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
+      home: const SizedBox(),
+      builder: ExtendedNavigator.builder<Router>(
+          router: Router(),
+          //initialRoute: '/'
       ),
     );
   }
