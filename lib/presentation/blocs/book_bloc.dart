@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:notebook/data/resources/moor_config/moor_database.dart';
 import 'package:notebook/data/resources/notebook_local_db_impl.dart';
-import 'package:notebook/domain/models/book_model.dart';
+
 import 'package:notebook/domain/repositories/notebook_local_db.dart';
 
 export 'package:moor/moor.dart' show Value;
