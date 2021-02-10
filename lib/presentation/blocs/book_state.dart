@@ -1,8 +1,23 @@
 part of 'book_bloc.dart';
 
 @immutable
-abstract class NotebookState {}
+abstract class BookState extends Equatable {
+  const BookState();
+}
 
-class NotebookInitial extends NotebookState {}
+class BookInitial extends BookState {
+  @override
+  List<Object> get props => [];
+}
+
+class BookNameChanged extends BookState {
+  @override
+  List<Object> get props => [];
+}
+
+class BookListUpdate extends BookState {
+  @override
+  List<Object> get props => [];
+}
 
 

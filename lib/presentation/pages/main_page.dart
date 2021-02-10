@@ -56,8 +56,8 @@ class Content extends StatelessWidget {
             return CircularProgressIndicator();
           } else if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
-            return BlocBuilder<NotebookBloc, NotebookState>(
-                builder: (BuildContext context, NotebookState builder) {
+            return BlocBuilder<NotebookBloc, BookState>(
+                builder: (BuildContext context, BookState builder) {
               return Container(
                 child: ListView.builder(
                     itemCount: snapshot.data.length,

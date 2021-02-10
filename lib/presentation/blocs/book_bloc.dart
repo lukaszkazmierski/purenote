@@ -14,10 +14,10 @@ export 'package:notebook/data/resources/moor_config/moor_database.dart' show Boo
 part 'book_event.dart';
 part 'book_state.dart';
 
-class NotebookBloc extends Bloc<NotebookEvent, NotebookState> {
+class NotebookBloc extends Bloc<BookEvent, BookState> {
   NotebookBloc() :
         _notebookLocalDb = NotebookLocalDbImpl(),
-        super(NotebookInitial());
+        super(BookInitial());
 
   final NotebookLocalDb _notebookLocalDb;
 
@@ -25,8 +25,8 @@ class NotebookBloc extends Bloc<NotebookEvent, NotebookState> {
   Stream<List<Book>> get watchAllBooks => _notebookLocalDb.book.watchAllItem();
   
   @override
-  Stream<NotebookState> mapEventToState(
-    NotebookEvent event,
+  Stream<BookState> mapEventToState(
+    BookEvent event,
   ) async* {
 
     if (event is AddingNewBook) {
@@ -34,7 +34,7 @@ class NotebookBloc extends Bloc<NotebookEvent, NotebookState> {
     }
   }
 
-  Stream<NotebookState> mapAddingNewBookToState(AddingNewBook event) async* {
+  Stream<BookState> mapAddingNewBookToState(AddingNewBook event) async* {
     _notebookLocalDb.book.insertItem(event.book);
 
   }
