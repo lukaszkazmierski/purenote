@@ -14,7 +14,7 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => NotebookBloc(),
+      create: (_) => BookBloc(),
       child: NewWidget(),
     );
   }
@@ -34,7 +34,7 @@ class NewWidget extends StatelessWidget {
         body: Content(),
         floatingActionButton: AddItemBtn(onPressed: () {
     final book = BookTableCompanion(name: Value<String>('s'));
-    context.read<NotebookBloc>().add(AddingNewBook(book));
+    context.read<BookBloc>().add(AddingNewBook(book));
     }),
     );
   }
@@ -50,13 +50,13 @@ class Content extends StatelessWidget {
     return FractionallySizedBox(
       widthFactor: 0.9,
       child: FutureBuilder(
-        future: context.watch<NotebookBloc>().getAllBooks,
+        future: context.watch<BookBloc>().getAllBooks,
         builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
           if (snapshot.hasError || !snapshot.hasData) {
             return CircularProgressIndicator();
           } else if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
-            return BlocBuilder<NotebookBloc, BookState>(
+            return BlocBuilder<BookBloc, BookState>(
                 builder: (BuildContext context, BookState builder) {
               return Container(
                 child: ListView.builder(

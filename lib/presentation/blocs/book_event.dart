@@ -16,16 +16,19 @@ class AddingNewBook extends BookEvent {
 }
 
 class RemoveBook extends BookEvent {
-  const RemoveBook();
+  final BookTableCompanion book;
+
+  const RemoveBook(this.book);
 
   @override
   List<Object> get props => [];
 }
 
 class RenameBook extends BookEvent {
+  final BookTableCompanion book;
   final String name;
 
-  const RenameBook(this.name);
+  const RenameBook({this.book, this.name});
 
   @override
   List<Object> get props => [name];

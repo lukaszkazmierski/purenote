@@ -10,11 +10,6 @@ class BookInitial extends BookState {
   List<Object> get props => [];
 }
 
-class BookNameChanged extends BookState {
-  @override
-  List<Object> get props => [];
-}
-
 class BookListUpdate extends BookState {
   @override
   List<Object> get props => [];
