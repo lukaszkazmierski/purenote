@@ -1,3 +1,4 @@
+import 'package:moor/ffi.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 import 'package:notebook/data/resources/daos/book_dao.dart';
 import 'package:notebook/data/resources/daos/note_dao.dart';
@@ -10,6 +11,8 @@ part 'moor_database.g.dart';
 class MoorDatabase extends _$MoorDatabase {
   MoorDatabase() : super(FlutterQueryExecutor.inDatabaseFolder(
       path: 'db.sqlite', logStatements: true));
+
+  MoorDatabase.testing() : super(VmDatabase.memory());
 
   @override
   int get schemaVersion => 1;

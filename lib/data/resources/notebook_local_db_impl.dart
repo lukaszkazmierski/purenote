@@ -10,5 +10,10 @@ class NotebookLocalDbImpl implements NotebookLocalDb  {
   DbActions<Book> get book => _moorDatabase.bookDao;
   @override
   DbActions<Note> get note => _moorDatabase.noteDao;
+
+  @override
+  Future<void> dispose() async {
+    await _moorDatabase.close();
+  }
 }
 
