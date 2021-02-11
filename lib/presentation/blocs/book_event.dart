@@ -16,7 +16,7 @@ class AddingNewBook extends BookEvent {
 }
 
 class RemoveBook extends BookEvent {
-  final BookTableCompanion book;
+  final Book book;
 
   const RemoveBook(this.book);
 
@@ -25,7 +25,7 @@ class RemoveBook extends BookEvent {
 }
 
 class RenameBook extends BookEvent {
-  final BookTableCompanion book;
+  final Book book;
   final String name;
 
   const RenameBook({this.book, this.name});

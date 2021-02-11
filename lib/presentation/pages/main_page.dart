@@ -3,6 +3,7 @@ import 'package:flutter/material.dart' hide Router;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:notebook/app.dart';
+import 'package:notebook/data/resources/notebook_local_db_impl.dart';
 
 
 import 'package:notebook/presentation/blocs/book_bloc.dart';
@@ -14,7 +15,7 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => BookBloc(),
+      create: (_) => BookBloc(NotebookLocalDbImpl()),
       child: NewWidget(),
     );
   }
