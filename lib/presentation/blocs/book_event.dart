@@ -3,6 +3,9 @@ part of 'book_bloc.dart';
 @immutable
 abstract class BookEvent extends Equatable {
   const BookEvent();
+
+  @override
+  List<Object> get props => [];
 }
 
 
@@ -19,9 +22,9 @@ class RemoveBook extends BookEvent {
   final Book book;
 
   const RemoveBook(this.book);
-
   @override
-  List<Object> get props => [];
+  List<Object> get props => [book];
+
 }
 
 class RenameBook extends BookEvent {
@@ -29,8 +32,7 @@ class RenameBook extends BookEvent {
   final String name;
 
   const RenameBook({this.book, this.name});
-
   @override
-  List<Object> get props => [name];
+  List<Object> get props => [book, name];
 }
 

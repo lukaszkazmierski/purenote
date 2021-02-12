@@ -21,12 +21,20 @@ void main() {
     //arrange
     //act
     const book1 = BookTableCompanion(name: Value<String>('1Book'));
+    const book2 = BookTableCompanion(name: Value<String>('important Book'));
 
     //assert
     blocTest('emits [BookListUpdate] when adding book successful',
         build: () => bookBloc,
-        act: (BookBloc bloc) => bloc.add(const AddingNewBook(book1)),
-        expect: [BookListUpdate()]);
+        act: (BookBloc bloc) {
+          bloc.add(const AddingNewBook(book1));
+          bloc.add(const AddingNewBook(book2));
+        },
+        expect: [
+          const BookListUpdate(),
+          const RefreshState(),
+          const BookListUpdate(),
+          const RefreshState(),]);
 
 
     blocTest('emits [BookListUpdate] when remove book successful',
@@ -36,7 +44,7 @@ void main() {
           final List<Book> books = await notebookLocalDbImplTesting.book.getAllItem();
           return bloc.add(RemoveBook(books[0]));
         },
-        expect: [BookListUpdate()]);
+        expect: [const BookListUpdate(), const RefreshState()]);
 
     blocTest('emits [BookListUpdate] when rename book successful',
         build: () => bookBloc,
@@ -45,7 +53,7 @@ void main() {
           final List<Book> books = await notebookLocalDbImplTesting.book.getAllItem();
           return bloc.add(RenameBook(book: books[0], name: 'otherBook'));
         },
-        expect: [BookListUpdate()]);
+        expect: [const BookListUpdate(), const RefreshState(),]);
   });
   tearDown(() async {
     await notebookLocalDbImplTesting.dispose();

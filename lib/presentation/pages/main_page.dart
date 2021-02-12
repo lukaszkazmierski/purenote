@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notebook/app.dart';
 import 'package:notebook/data/resources/notebook_local_db_impl.dart';
 
+
 import 'package:notebook/presentation/blocs/book_bloc.dart';
 import 'package:notebook/presentation/widgets/add_item_btn.dart';
 
@@ -52,6 +53,7 @@ class _Body extends StatelessWidget {
     return FutureBuilder(
         future: context.watch<BookBloc>().getAllBooks,
         builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
+
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
               return CircularProgressIndicator();

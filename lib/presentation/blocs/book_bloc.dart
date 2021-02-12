@@ -18,7 +18,7 @@ part 'book_state.dart';
 class BookBloc extends Bloc<BookEvent, BookState> {
   final NotebookLocalDb _notebookLocalDb;
 
-  BookBloc(this._notebookLocalDb) : super(BookInitial());
+  BookBloc(this._notebookLocalDb) : super(const BookInitial());
 
 
 
@@ -41,17 +41,20 @@ class BookBloc extends Bloc<BookEvent, BookState> {
 
   Stream<BookState> mapAddingNewBookToState(AddingNewBook event) async* {
     _notebookLocalDb.book.insertItem(event.book);
-    yield BookListUpdate();
+    yield const BookListUpdate();
+    yield const RefreshState();
   }
 
   Stream<BookState> mapRemoveBookToState(RemoveBook event) async* {
     _notebookLocalDb.book.deleteItem(event.book);
-    yield BookListUpdate();
+    yield const BookListUpdate();
+    yield const RefreshState();
   }
 
   Stream<BookState> mapRenameBookToState(RenameBook event) async* {
     final updatedBook = event.book.copyWith(name: event.name);
     _notebookLocalDb.book.updateItem(updatedBook);
-    yield BookListUpdate();
+    yield const BookListUpdate();
+    yield const RefreshState();
   }
  }
