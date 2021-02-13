@@ -1,7 +1,7 @@
 import 'package:moor_flutter/moor_flutter.dart';
-import 'package:notebook/data/resources/daos/db_actions.dart';
 import 'package:notebook/data/resources/moor_config/moor_database.dart';
 import 'package:notebook/data/resources/sql_tables/note_table.dart';
+import 'package:notebook/data/resources/daos/db_actions.dart';
 
 
 part 'note_dao.g.dart';

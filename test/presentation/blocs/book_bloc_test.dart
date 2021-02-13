@@ -1,8 +1,6 @@
-import 'dart:async';
 
-import 'package:bloc/bloc.dart';
+
 import 'package:bloc_test/bloc_test.dart';
-import 'package:notebook/data/resources/notebook_local_db_impl.dart';
 import 'package:notebook/presentation/blocs/book_bloc.dart';
 import 'package:test/test.dart';
 
@@ -31,10 +29,7 @@ void main() {
           bloc.add(const AddingNewBook(book2));
         },
         expect: [
-          const BookListUpdate(),
-          const RefreshState(),
-          const BookListUpdate(),
-          const RefreshState(),]);
+          const BookListUpdate()]);
 
 
     blocTest('emits [BookListUpdate] when remove book successful',
@@ -44,7 +39,7 @@ void main() {
           final List<Book> books = await notebookLocalDbImplTesting.book.getAllItem();
           return bloc.add(RemoveBook(books[0]));
         },
-        expect: [const BookListUpdate(), const RefreshState()]);
+        expect: [const BookListUpdate()]);
 
     blocTest('emits [BookListUpdate] when rename book successful',
         build: () => bookBloc,
@@ -53,7 +48,7 @@ void main() {
           final List<Book> books = await notebookLocalDbImplTesting.book.getAllItem();
           return bloc.add(RenameBook(book: books[0], name: 'otherBook'));
         },
-        expect: [const BookListUpdate(), const RefreshState(),]);
+        expect: [const BookListUpdate()]);
   });
   tearDown(() async {
     await notebookLocalDbImplTesting.dispose();

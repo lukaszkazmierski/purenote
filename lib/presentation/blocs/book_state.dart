@@ -21,11 +21,4 @@ class BookListUpdate extends BookState {
   List<Object> get props => [];
 }
 
-class RefreshState extends BookState {
-  const RefreshState();
-
-  @override
-  List<Object> get props => [];
-}
-
 

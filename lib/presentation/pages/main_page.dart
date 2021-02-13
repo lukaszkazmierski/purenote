@@ -1,14 +1,11 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart' hide Router;
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:notebook/app.dart';
+import 'package:auto_route/auto_route.dart' show ExtendedNavigator;
 import 'package:notebook/core/utils/routes/router.gr.dart';
-import 'package:notebook/core/utils/ui/dialogs/book_name_form_dialog.dart';
-
 import 'package:notebook/presentation/blocs/book_bloc.dart';
 import 'package:notebook/presentation/widgets/add_item_btn.dart';
 import 'package:notebook/presentation/widgets/centered_circular_progress_indicator.dart';
+import 'package:notebook/core/utils/ui/dialogs/book_name_form_dialog.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({Key key}) : super(key: key);
@@ -17,7 +14,7 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => BookBloc(NotebookLocalDbImpl()),
-      child: MainLayout(),
+      child: const MainLayout(),
     );
   }
 }

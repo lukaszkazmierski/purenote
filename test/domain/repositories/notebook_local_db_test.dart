@@ -1,4 +1,3 @@
-import 'package:mockito/mockito.dart';
 import 'package:moor/moor.dart';
 import 'package:notebook/data/resources/moor_config/moor_database.dart';
 import 'package:test/test.dart';

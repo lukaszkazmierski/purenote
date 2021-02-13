@@ -1,9 +1,11 @@
-import 'package:moor/ffi.dart';
 import 'package:moor_flutter/moor_flutter.dart';
-import 'package:notebook/data/resources/daos/book_dao.dart';
-import 'package:notebook/data/resources/daos/note_dao.dart';
+import 'package:moor/ffi.dart';
+
 import 'package:notebook/data/resources/sql_tables/book_table.dart';
 import 'package:notebook/data/resources/sql_tables/note_table.dart';
+
+import 'package:notebook/data/resources/daos/book_dao.dart';
+import 'package:notebook/data/resources/daos/note_dao.dart';
 
 part 'moor_database.g.dart';
 
