@@ -4,10 +4,12 @@ import 'package:notebook/data/resources/moor_config/moor_database.dart';
 import 'package:notebook/presentation/blocs/book_bloc.dart';
 import 'package:provider/provider.dart';
 
+
 class BookNameFormDialog extends StatelessWidget {
   final BuildContext contextWithBloc;
+  final String typeDial;
 
-  const BookNameFormDialog({@required this.contextWithBloc, Key key})
+  const BookNameFormDialog({@required this.contextWithBloc, @required this.typeDial, Key key})
       : super(key: key);
 
   @override
@@ -24,21 +26,22 @@ class BookNameFormDialog extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.6,
                 height: MediaQuery.of(context).size.height * 0.25,
                 color: Colors.white,
-                child: _DialogContent(contextWithBloc: contextWithBloc))
+                child: _DialogContent(contextWithBloc: contextWithBloc, typeDial: typeDial,))
           ],
         ),
       )
-
     );
   }
 }
 
 class _DialogContent extends StatelessWidget {
   final TextEditingController _nameFieldController = TextEditingController();
-  BuildContext contextWithBloc;
+  final BuildContext contextWithBloc;
+  final String typeDial;
 
   _DialogContent({
-    this.contextWithBloc,
+    @required this.contextWithBloc,
+    @required this.typeDial,
     Key key,
   }) : super(key: key);
 
@@ -49,7 +52,7 @@ class _DialogContent extends StatelessWidget {
       heightFactor: 0.9,
       child: Column(
         children: <Widget>[
-          const Text('Creating a new book'),
+          typeDial == 'Add' ? const Text('Creating a new book') : const Text('Rename book'),
           TextFormField(
             controller: _nameFieldController,
             maxLength: 30,
@@ -68,12 +71,18 @@ class _DialogContent extends StatelessWidget {
                   child: const Text('Cancel')),
               RawMaterialButton(
                   onPressed: () {
-                    final book = BookTableCompanion(
-                        name: Value<String>(_nameFieldController.text));
-                    contextWithBloc.read<BookBloc>().add(AddingNewBook(book));
-                    Navigator.pop(context);
+                    if (typeDial == 'Add') {
+                      final book = BookTableCompanion(
+                          name: Value<String>(_nameFieldController.text));
+                      contextWithBloc.read<BookBloc>().add(AddingNewBook(book));
+                      Navigator.pop(context);
+                    } else {
+                      Navigator.pop(context, _nameFieldController.text);
+                    }
+
+
                   },
-                  child: const Text('Create'))
+                  child: typeDial == 'Add' ? const Text('Create') : const Text('Rename'))
             ],
           )
         ],
