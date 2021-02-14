@@ -1,7 +1,6 @@
-
-
 import 'package:bloc_test/bloc_test.dart';
-import 'package:notebook/presentation/blocs/book_bloc.dart';
+import 'package:notebook/presentation/blocs/book_bloc/book_bloc.dart';
+
 import 'package:test/test.dart';
 
 import '../../data/resources/notebook_local_db_impl_testing.dart';
