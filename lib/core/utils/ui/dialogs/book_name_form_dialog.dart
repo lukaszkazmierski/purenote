@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:notebook/data/resources/moor_config/moor_database.dart';
-import 'package:notebook/presentation/blocs/book_bloc.dart';
+import 'package:notebook/presentation/blocs/book_bloc/book_bloc.dart';
 
 
 

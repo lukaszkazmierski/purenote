@@ -17,7 +17,13 @@ class NoteDao extends DatabaseAccessor<MoorDatabase>
   @override
   Future<List<Note>> getAllItem() => select(noteTable).get();
   @override
-  Stream<List<Note>> watchAllItem() => select(noteTable).watch();
+  Stream<List<Note>> watchAllItem([String bookName]) =>
+      (select(noteTable)
+          ..orderBy([
+            (tbl) => OrderingTerm(expression: tbl.creationDate, mode: OrderingMode.desc)
+          ])
+          ..where((tbl) => tbl.book.equals(bookName))
+      ).watch();
   @override
   Future insertItem(Insertable<Note> note) => into(noteTable).insert(note);
   @override

@@ -16,7 +16,7 @@ class BookDao extends DatabaseAccessor<MoorDatabase>
   @override
   Future<List<Book>> getAllItem() => select(bookTable).get();
   @override
-  Stream<List<Book>> watchAllItem() => select(bookTable).watch();
+  Stream<List<Book>> watchAllItem([_]) => select(bookTable).watch();
   @override
   Future insertItem(Insertable<Book> note) => into(bookTable).insert(note);
   @override
@@ -24,3 +24,4 @@ class BookDao extends DatabaseAccessor<MoorDatabase>
   @override
   Future deleteItem(Insertable<Book> note) => delete(bookTable).delete(note);
 }
+
