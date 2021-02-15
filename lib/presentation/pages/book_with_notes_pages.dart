@@ -15,7 +15,6 @@ class BookWithNotesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(bookName);
     return BlocProvider<NoteBloc>(
         create: (_) => NoteBloc(notebookLocalDb),
         child: MainLayout(bookName: bookName));
