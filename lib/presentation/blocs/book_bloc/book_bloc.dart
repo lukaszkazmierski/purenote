@@ -6,7 +6,7 @@ import 'package:notebook/domain/repositories/notebook_local_db.dart';
 
 export 'package:moor/moor.dart' show Value;
 export 'package:notebook/data/resources/moor_config/moor_database.dart' show Book, BookTableCompanion;
-export 'package:notebook/data/resources/notebook_local_db_impl.dart';
+export 'package:notebook/domain/repositories/notebook_local_db.dart';
 
 part 'book_event.dart';
 part 'book_state.dart';

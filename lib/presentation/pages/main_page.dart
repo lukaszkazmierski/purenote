@@ -12,8 +12,8 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => BookBloc(NotebookLocalDbImpl()),
+    return BlocProvider<BookBloc>(
+      create: (_) => BookBloc(notebookLocalDb),
       child: const MainLayout(),
     );
   }
