@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:auto_route/auto_route.dart' show ExtendedNavigator;
 import 'package:notebook/core/utils/routes/router.gr.dart';
 import 'package:notebook/presentation/blocs/book_bloc/book_bloc.dart';
+import 'package:notebook/presentation/pages/book_with_notes_pages.dart';
 import 'package:notebook/presentation/widgets/add_item_btn.dart';
 import 'package:notebook/presentation/widgets/centered_circular_progress_indicator.dart';
 import 'package:notebook/core/utils/ui/dialogs/book_name_form_dialog.dart';
@@ -86,7 +87,7 @@ class _BookListView extends StatelessWidget {
             title: Text(bookList[index].name),
             leading: const Icon(Icons.library_books),
             onTap: () {
-              ExtendedNavigator.of(context).push(Routes.bookWithNotesPage);
+              ExtendedNavigator.of(context).push(Routes.bookWithNotesPage, arguments: BookWithNotesPageArguments(bookName: bookList[index].name));
             },
             trailing: PopupMenuButton<String>(
               onSelected: (action) {
