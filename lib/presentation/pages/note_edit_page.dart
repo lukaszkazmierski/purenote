@@ -9,46 +9,83 @@ class NoteEditPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(create: (_) => NoteBloc(notebookLocalDb), child: MainLayout(note: note as Note),);
-
+    return BlocProvider(
+      create: (_) => NoteBloc(notebookLocalDb),
+      child: MainLayout(note: note as Note),
+    );
   }
 }
 
 class _MainLayoutState extends State<MainLayout> {
   Note note;
   TextEditingController _titleTextController;
+  TextEditingController _contentTextController;
   @override
   void initState() {
     super.initState();
     note = widget.note;
     _titleTextController = TextEditingController(text: note.title);
+    _contentTextController = TextEditingController(text: note.content);
   }
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
-      appBar: AppBar(title: Text('note edit'),),
-      body: BlocBuilder<NoteBloc, NoteState>(builder: (BuildContext context, state) {
-        return Column(
-          children: [
-            Expanded(child: TextFormField(
-              controller: _titleTextController,
-            ))
-          ],
-        );
-    }),
+      appBar: AppBar(
+        title: Text('note edit'),
+      ),
+      body: BlocBuilder<NoteBloc, NoteState>(
+          builder: (BuildContext context, state) {
+        return SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          child: ConstrainedBox(
+          constraints: BoxConstraints(
+          minWidth: MediaQuery.of(context).size.width,
+            minHeight: MediaQuery.of(context).size.height,
+            ),
+          child: IntrinsicHeight(
+            child: FractionallySizedBox(
+                alignment: Alignment.topCenter,
+                widthFactor: 0.95,
+                heightFactor: 0.95,
+                child: Column(
+                  children: [
+                    Expanded(
+                        flex: 1,
+                        child: TextFormField(
+                          controller: _titleTextController,
+                        )),
+                    Expanded(
+                        flex: 12,
+                        child: TextFormField(
+                          controller: _contentTextController,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Username',
+                          ),
+                          maxLines: null,
+                        )),
+                  ],
+                ),
+            ),
+
+
+            )
+
+
+            ));
+      })
     );
   }
 }
 
+
+
 class MainLayout extends StatefulWidget {
   final Note note;
 
-  const MainLayout({@required this.note ,Key key}) : super(key: key);
+  const MainLayout({@required this.note, Key key}) : super(key: key);
 
   @override
   _MainLayoutState createState() => _MainLayoutState();
-
 }
