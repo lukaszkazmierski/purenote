@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:notebook/app.dart';
-import 'package:notebook/injection/environment.dart';
-import 'package:notebook/injection/injection.dart';
+import 'package:notebook/service_locator//service_locator.dart';
 
 void main() {
-  configureInjection(Environment.prod);
+  locator.register();
   runApp(const App());
 }
 
