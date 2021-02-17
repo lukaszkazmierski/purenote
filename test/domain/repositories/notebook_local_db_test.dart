@@ -1,9 +1,9 @@
-import 'package:moor/moor.dart';
+import 'package:mockito/mockito.dart';
+import 'package:moor/moor.dart' hide isNotNull;
 import 'package:notebook/data/resources/moor_config/moor_database.dart';
 import 'package:test/test.dart';
 
 import '../../data/resources/notebook_local_db_impl_testing.dart';
-
 
 void main() {
   NotebookLocalDbImplTesting notebookLocalDbImplTesting;
@@ -155,6 +155,49 @@ void main() {
       await notebookLocalDbImplTesting.note.deleteItem(listOfNotes[0]);
       listOfNotes = await notebookLocalDbImplTesting.note.getAllItem();
       expect(listOfNotes.length, 0);
+
+    });
+
+    test('should detect new notes and returned the matching to book name', () async {
+      //arrange
+      //act
+      const book1 = BookTableCompanion(name:  Value<String>('Important'));
+      const book2 = BookTableCompanion(name:  Value<String>('Important'));
+
+
+      final note1 = NoteTableCompanion(
+          book: book1.name,
+          title: const Value<String>('important numbers'),
+          content: const Value<String>('The memo contains a list of numbers'));
+      final note2 = NoteTableCompanion(
+          book: book1.name,
+          title: const Value<String>('space info'),
+          content: const Value<String>('The united crew virtually offers the hurq. Wobble without voyage, and we won’t invade an astronaut. '));
+      final note3 = NoteTableCompanion(
+          book: book2.name,
+          title: const Value<String>('recipe'),
+          content: const Value<String>('Try fluffing popcorn paste tossed with whiskey. '));
+
+      //assert
+      expect(notebookLocalDbImplTesting.note, isNotNull);
+
+      await notebookLocalDbImplTesting.note.insertItem(note1);
+      await notebookLocalDbImplTesting.note.insertItem(note2);
+      await notebookLocalDbImplTesting.note.insertItem(note3);
+
+      final streamOfNotes = notebookLocalDbImplTesting.note.watchAllItem(book1.name.value);
+      expect(streamOfNotes, isA<Stream<List<Note>>>());
+
+      const int i = 0;
+      streamOfNotes.listen(
+          expectAsync1<void, List<Note>>((note) {
+            expect(note[i].title, note1.title.value);
+            expect(note[i+1].title, note2.title.value);
+          }, max: -1)
+      );
+
+      final List<Note> listOfNotes = await notebookLocalDbImplTesting.note.getAllItem();
+      expect(listOfNotes, isA<List<Note>>());
 
     });
   });
