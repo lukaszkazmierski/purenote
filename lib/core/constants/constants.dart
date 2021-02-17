@@ -1,3 +1,7 @@
 class Constants {
-  //static const String HIVE_BOX_NAME_FOR_NOTEBOOKS = 'notebooks';
+  static const int minBookTitleLength = 1;
+  static const int maxBookTitleLength = 30;
+
+  static const int minNoteTitleLength = 1;
+  static const int maxNoteTitleLength = 30;
 }

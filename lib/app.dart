@@ -12,7 +12,6 @@ class App extends StatelessWidget {
       home: const SizedBox(),
       builder: ExtendedNavigator.builder<Router>(
           router: Router(),
-          //initialRoute: '/'
       ),
     );
   }

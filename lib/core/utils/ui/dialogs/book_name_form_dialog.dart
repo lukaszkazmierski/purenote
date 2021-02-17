@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notebook/core/constants/constants.dart';
 import 'package:provider/provider.dart';
 
 import 'package:notebook/data/resources/moor_config/moor_database.dart';
@@ -56,7 +57,7 @@ class _DialogContent extends StatelessWidget {
           typeDial == 'Add' ? const Text('Creating a new book') : const Text('Rename book'),
           TextFormField(
             controller: _nameFieldController,
-            maxLength: 30,
+            maxLength: Constants.maxBookTitleLength,
             decoration: const InputDecoration(
               labelText: 'name',
             ),
