@@ -11,7 +11,7 @@ void main() {
 
   setUp(() {
     notebookLocalDbImplTesting = NotebookLocalDbImplTesting();
-    bookBloc = BookBloc(notebookLocalDbImplTesting);
+    bookBloc = BookBloc(notebookLocalDb:  notebookLocalDbImplTesting);
   });
 
   group('BookBloc tests', () {
