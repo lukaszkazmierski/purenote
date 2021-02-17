@@ -13,12 +13,12 @@ part 'note_event.dart';
 part 'note_state.dart';
 
 class NoteBloc extends Bloc<NoteEvent, NoteState> {
-  final NotebookLocalDb _notebookLocalDb;
+  final NotebookLocalDb notebookLocalDb;
 
-  NoteBloc(this._notebookLocalDb) : super(NoteInitial());
+  NoteBloc({@required this.notebookLocalDb}) : super(NoteInitial());
 
-  Future<List<Note>> get getAllNotes => _notebookLocalDb.note.getAllItem();
-  Stream<List<Note>> watchAllNotes(String bookName) => _notebookLocalDb.note.watchAllItem(bookName);
+  Future<List<Note>> get getAllNotes => notebookLocalDb.note.getAllItem();
+  Stream<List<Note>> watchAllNotes(String bookName) => notebookLocalDb.note.watchAllItem(bookName);
 
   @override
   Stream<NoteState> mapEventToState(
@@ -32,7 +32,7 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
   }
 
   Stream<NoteState> _mapAddingNewNoteToState(AddingNewNote event) async* {
-    await _notebookLocalDb.note.insertItem(event.note);
+    await notebookLocalDb.note.insertItem(event.note);
     yield const NoteListUpdate();
   }
 

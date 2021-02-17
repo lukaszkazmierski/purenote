@@ -7,6 +7,7 @@ import 'package:notebook/data/resources/moor_config/moor_database.dart';
 import 'package:notebook/presentation/blocs/note_bloc/note_bloc.dart';
 import 'package:notebook/presentation/widgets/add_item_btn.dart';
 import 'package:notebook/presentation/widgets/centered_circular_progress_indicator.dart';
+import 'package:notebook/service_locator/service_locator.dart';
 
 class BookWithNotesPage extends StatelessWidget {
   final String bookName;
@@ -16,7 +17,7 @@ class BookWithNotesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<NoteBloc>(
-        create: (_) => NoteBloc(notebookLocalDb),
+        create: (_) => locator.get<NoteBloc>(),
         child: MainLayout(bookName: bookName));
   }
 }

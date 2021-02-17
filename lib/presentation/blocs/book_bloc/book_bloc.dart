@@ -12,12 +12,12 @@ part 'book_event.dart';
 part 'book_state.dart';
 
 class BookBloc extends Bloc<BookEvent, BookState> {
-  final NotebookLocalDb _notebookLocalDb;
+  final NotebookLocalDb notebookLocalDb;
 
-  BookBloc(this._notebookLocalDb) : super(const BookInitial());
+  BookBloc({@required this.notebookLocalDb}) : super(const BookInitial());
 
-  Future<List<Book>> get getAllBooks => _notebookLocalDb.book.getAllItem();
-  Stream<List<Book>> get watchAllBooks => _notebookLocalDb.book.watchAllItem();
+  Future<List<Book>> get getAllBooks => notebookLocalDb.book.getAllItem();
+  Stream<List<Book>> get watchAllBooks => notebookLocalDb.book.watchAllItem();
   
   @override
   Stream<BookState> mapEventToState(
@@ -34,18 +34,18 @@ class BookBloc extends Bloc<BookEvent, BookState> {
   }
 
   Stream<BookState> mapAddingNewBookToState(AddingNewBook event) async* {
-    _notebookLocalDb.book.insertItem(event.book);
+    notebookLocalDb.book.insertItem(event.book);
     yield const BookListUpdate();
   }
 
   Stream<BookState> mapRemoveBookToState(RemoveBook event) async* {
-    _notebookLocalDb.book.deleteItem(event.book);
+    notebookLocalDb.book.deleteItem(event.book);
     yield const BookListUpdate();
   }
 
   Stream<BookState> mapRenameBookToState(RenameBook event) async* {
     final updatedBook = event.book.copyWith(name: event.name);
-    _notebookLocalDb.book.updateItem(updatedBook);
+    notebookLocalDb.book.updateItem(updatedBook);
     yield const BookListUpdate();
   }
  }

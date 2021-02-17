@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notebook/presentation/blocs/note_bloc/note_bloc.dart';
+import 'package:notebook/service_locator/service_locator.dart';
 
 class NoteEditPage extends StatelessWidget {
   final note;
@@ -10,7 +11,7 @@ class NoteEditPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => NoteBloc(notebookLocalDb),
+      create: (_) => locator.get<NoteBloc>(),
       child: MainLayout(note: note as Note),
     );
   }

@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:auto_route/auto_route.dart' show ExtendedNavigator;
 import 'package:notebook/core/utils/routes/router.gr.dart';
 import 'package:notebook/presentation/blocs/book_bloc/book_bloc.dart';
-import 'package:notebook/presentation/pages/book_with_notes_pages.dart';
 import 'package:notebook/presentation/widgets/add_item_btn.dart';
 import 'package:notebook/presentation/widgets/centered_circular_progress_indicator.dart';
 import 'package:notebook/core/utils/ui/dialogs/book_name_form_dialog.dart';
+import 'package:notebook/service_locator/service_locator.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({Key key}) : super(key: key);
@@ -14,7 +14,7 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<BookBloc>(
-      create: (_) => BookBloc(notebookLocalDb),
+      create: (_) => locator.get<BookBloc>(),
       child: const MainLayout(),
     );
   }
