@@ -4,7 +4,12 @@ import 'package:notebook/data/resources/daos/db_actions.dart';
 
 
 class NotebookLocalDbImpl implements NotebookLocalDb  {
-  final MoorDatabase _moorDatabase = MoorDatabase();
+  final MoorDatabase _moorDatabase;
+
+  NotebookLocalDbImpl() : _moorDatabase = MoorDatabase();
+
+  NotebookLocalDbImpl.testing() : _moorDatabase = MoorDatabase.testing();
+
 
   @override
   DbActions<Book> get book => _moorDatabase.bookDao;
