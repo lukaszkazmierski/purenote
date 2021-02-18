@@ -21,6 +21,16 @@ class RemoveNote extends NoteEvent {
   final Note note;
 
   const RemoveNote(this.note);
+
+  @override
+  List<Object> get props => [note];
+}
+
+class UpdateNote extends NoteEvent {
+  final Note note;
+
+  const UpdateNote(this.note);
+
   @override
   List<Object> get props => [note];
 }

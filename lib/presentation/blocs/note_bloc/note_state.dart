@@ -18,3 +18,9 @@ class NoteListUpdate extends NoteState {
   @override
   List<Object> get props => [];
 }
+
+class NoteUpdated extends NoteState {
+  const NoteUpdated();
+  @override
+  List<Object> get props => [];
+}
