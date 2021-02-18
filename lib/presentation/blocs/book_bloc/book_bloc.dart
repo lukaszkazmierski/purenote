@@ -48,4 +48,10 @@ class BookBloc extends Bloc<BookEvent, BookState> {
     notebookLocalDb.book.updateItem(updatedBook);
     yield const BookListUpdate();
   }
+
+  @override
+  Future<void> close() {
+    notebookLocalDb.dispose();
+    return super.close();
+  }
  }
