@@ -1,17 +1,11 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:notebook/presentation/blocs/book_bloc/book_bloc.dart';
-
 import 'package:test/test.dart';
-
-import '../../data/resources/notebook_local_db_impl_testing.dart';
+import 'package:notebook/presentation/blocs/book_bloc/book_bloc.dart';
+import '../../service_locator/service_locator.dart';
 
 void main() {
-  NotebookLocalDbImplTesting notebookLocalDbImplTesting;
-  BookBloc bookBloc;
-
-  setUp(() {
-    notebookLocalDbImplTesting = NotebookLocalDbImplTesting();
-    bookBloc = BookBloc(notebookLocalDb:  notebookLocalDbImplTesting);
+  setUpAll(() {
+    locatorTest.register();
   });
 
   group('BookBloc tests', () {
@@ -22,34 +16,30 @@ void main() {
 
     //assert
     blocTest('emits [BookListUpdate] when adding book successful',
-        build: () => bookBloc,
+        build: () => locatorTest.get<BookBloc>(),
         act: (BookBloc bloc) {
           bloc.add(const AddingNewBook(book1));
           bloc.add(const AddingNewBook(book2));
         },
-        expect: [
-          const BookListUpdate()]);
+        expect: [const BookListUpdate()]);
 
 
     blocTest('emits [BookListUpdate] when remove book successful',
-        build: () => bookBloc,
+        build: () => locatorTest.get<BookBloc>(),
         act: (BookBloc bloc) async {
-          notebookLocalDbImplTesting.book.insertItem(book1);
-          final List<Book> books = await notebookLocalDbImplTesting.book.getAllItem();
-          return bloc.add(RemoveBook(books[0]));
+          bloc.notebookLocalDb.book.insertItem(book1);
+          final List<Book> books = await bloc.notebookLocalDb.book.getAllItem();
+          bloc.add(RemoveBook(books[0]));
         },
         expect: [const BookListUpdate()]);
 
     blocTest('emits [BookListUpdate] when rename book successful',
-        build: () => bookBloc,
+        build: () => locatorTest.get<BookBloc>(),
         act: (BookBloc bloc) async {
-          notebookLocalDbImplTesting.book.insertItem(book1);
-          final List<Book> books = await notebookLocalDbImplTesting.book.getAllItem();
-          return bloc.add(RenameBook(book: books[0], name: 'otherBook'));
+          bloc.notebookLocalDb.book.insertItem(book1);
+          final List<Book> books = await bloc.notebookLocalDb.book.getAllItem();
+          bloc.add(RenameBook(book: books[0], name: 'otherBook'));
         },
         expect: [const BookListUpdate()]);
-  });
-  tearDown(() async {
-    await notebookLocalDbImplTesting.dispose();
   });
 }
