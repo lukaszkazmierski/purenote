@@ -25,7 +25,6 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     NoteEvent event,
   ) async* {
     if (event is AddingNewNote) {
-      await notebookLocalDb.note.insertItem(event.note);
       yield* _mapAddingNewNoteToState(event);
     } else if (event is RemoveNote) {
       yield* _mapRemoveNoteToState(event);
