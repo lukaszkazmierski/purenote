@@ -25,7 +25,7 @@ class Locator {
          _sl.registerSingleton<NotebookLocalDb>(NotebookLocalDbImpl());
          break;
        case Environment.test:
-         _sl.registerFactory<NotebookLocalDb>(() => NotebookLocalDbImpl.testing());
+         _sl.registerSingleton<NotebookLocalDb>(NotebookLocalDbImpl.testing());
          break;
      }
    }

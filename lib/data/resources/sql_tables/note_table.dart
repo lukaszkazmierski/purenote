@@ -7,8 +7,7 @@ class NoteTable extends Table {
   TextColumn get book =>
       text().withLength(
         min: Constants.minBookTitleLength,
-        max: Constants.maxBookTitleLength)
-          .withDefault(const Constant('Inne'))();
+        max: Constants.maxBookTitleLength)();
   TextColumn get title =>
       text().withLength(
           min: Constants.minNoteTitleLength,

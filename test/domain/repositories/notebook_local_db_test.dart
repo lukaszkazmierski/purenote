@@ -36,6 +36,9 @@ void main() {
       expect(listOfBooks.length, 2);
       expect(listOfBooks, isA<List<Book>>());
 
+      notebookLocalDb.book.deleteItem(listOfBooks[0]);
+      notebookLocalDb.book.deleteItem(listOfBooks[1]);
+
     });
 
     test('should insert and update book in database', () async {
@@ -57,7 +60,7 @@ void main() {
       listOfBooks = await notebookLocalDb.book.getAllItem();
 
       expect(listOfBooks[0].name, '1B00k1');
-
+      notebookLocalDb.book.deleteItem(listOfBooks[0]);
     });
 
     test('should insert and delete book in database', () async {
@@ -109,6 +112,8 @@ void main() {
       expect(listOfNotes.length, 2);
       expect(listOfNotes, isA<List<Note>>());
 
+      notebookLocalDb.note.deleteItem(listOfNotes[0]);
+      notebookLocalDb.note.deleteItem(listOfNotes[1]);
     });
 
     test('should insert and update note in database', () async {
@@ -134,7 +139,7 @@ void main() {
       listOfNotes = await notebookLocalDb.note.getAllItem();
 
       expect(listOfNotes[0].title, 'contacts');
-
+      notebookLocalDb.note.deleteItem(listOfNotes[0]);
     });
 
     test('should insert and delete book in database', () async {
@@ -158,7 +163,6 @@ void main() {
       await notebookLocalDb.note.deleteItem(listOfNotes[0]);
       listOfNotes = await notebookLocalDb.note.getAllItem();
       expect(listOfNotes.length, 0);
-
     });
 
     test('should detect new notes and returned the matching to book name', () async {
@@ -203,10 +207,6 @@ void main() {
       expect(listOfNotes, isA<List<Note>>());
 
     });
-  });
-
-  tearDown(() async {
-    await notebookLocalDb.dispose();
   });
 }
 

@@ -48,11 +48,4 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     await notebookLocalDb.note.updateItem(event.note);
     yield const NoteUpdated();
   }
-
-  @override
-  Future<void> close() {
-    notebookLocalDb.dispose();
-    return super.close();
-  }
-
 }
