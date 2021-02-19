@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:moor/moor.dart';
+import 'package:notebook/core/utils/extensions/default_note_companion_extension.dart';
 import 'package:notebook/core/utils/routes/router.gr.dart';
 import 'package:notebook/data/resources/moor_config/moor_database.dart';
 import 'package:notebook/presentation/blocs/note_bloc/note_bloc.dart';
@@ -37,28 +39,58 @@ class MainLayout extends StatelessWidget {
           builder: (BuildContext context, AsyncSnapshot<List<Note>> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
-                return CenteredCircularProgressIndicator();
+                return const CenteredCircularProgressIndicator();
               default:
                 if (snapshot.hasError) {
-                  return CenteredCircularProgressIndicator();
+                  return const CenteredCircularProgressIndicator();
                 } else {
                   return ListView.builder(
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return ListTile(
-                          title: Text(snapshot.data[index].title),
-                          onTap: () {
-                            ExtendedNavigator.of(context).push(Routes.noteEditPage, arguments: NoteEditPageArguments(note: snapshot.data[index]));
-                          },
-                        );
+                        return SlidableTile(note: snapshot.data[index]);
                       });
                 }
             }
           }),
       floatingActionButton: AddItemBtn(onPressed: () {
-        final note = NoteTableCompanion(title: Value<String>('nowa notatka'), content: Value<String>('nowa notatka'));
+        final note = DefaultNoteCompanion(const NoteTableCompanion())
+            .create(bookName: bookName);
         context.read<NoteBloc>().add(AddingNewNote(note));
       }),
     );
+  }
+}
+
+class SlidableTile extends StatelessWidget {
+  final SlidableController slidableController = SlidableController();
+  final Note note;
+
+  SlidableTile({
+    Key key,
+    @required this.note,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Slidable(
+        key: Key(note.title),
+        controller: slidableController,
+        actionPane: SlidableDrawerActionPane(),
+        actionExtentRatio: 0.25,
+        child: ListTile(
+          title: Text(note.title),
+          onTap: () {
+            ExtendedNavigator.of(context).push(Routes.noteEditPage,
+                arguments: NoteEditPageArguments(note: note));
+          },
+        ),
+        secondaryActions: <Widget>[
+          IconSlideAction(
+            caption: 'Delete',
+            color: Colors.red,
+            icon: Icons.delete,
+            onTap: () => context.read<NoteBloc>().add(RemoveNote(note)),
+          ),
+        ]);
   }
 }
