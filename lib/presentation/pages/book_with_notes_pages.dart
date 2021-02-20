@@ -75,8 +75,7 @@ class SlidableTile extends StatelessWidget {
     return Slidable(
         key: Key(note.title),
         controller: slidableController,
-        actionPane: SlidableDrawerActionPane(),
-        actionExtentRatio: 0.25,
+        actionPane: const SlidableDrawerActionPane(),
         child: ListTile(
           title: Text(note.title),
           onTap: () {
