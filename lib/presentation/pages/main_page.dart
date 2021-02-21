@@ -54,20 +54,36 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: context.read<BookBloc>().watchAllBooks,
-        builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
-              return const CenteredCircularProgressIndicator();
-            default:
-              if (snapshot.hasError) {
+    return BlocListener<BookBloc, BookState>(
+      listener: (context, state) {
+        if (state is Error) {
+          final snackBar = SnackBar(
+            content: Text(state.message),
+            action: SnackBarAction(
+              label: 'Close',
+              onPressed: () {
+                // Some code to undo the change.
+              },
+            ),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+      },
+      child: StreamBuilder(
+          stream: context.read<BookBloc>().watchAllBooks,
+          builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
                 return const CenteredCircularProgressIndicator();
-              } else {
-                return _BookListView(bookList: snapshot.data);
-              }
-          }
-        });
+              default:
+                if (snapshot.hasError) {
+                  return const CenteredCircularProgressIndicator();
+                } else {
+                  return _BookListView(bookList: snapshot.data);
+                }
+            }
+          }),
+    );
   }
 }
 
