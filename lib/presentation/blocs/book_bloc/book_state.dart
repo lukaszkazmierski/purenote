@@ -21,4 +21,18 @@ class BookListUpdate extends BookState {
   List<Object> get props => [];
 }
 
+class Error extends BookState {
+  final String message;
 
+  const Error(this.message);
+
+  @override
+  List<Object> get props => [message];
+}
+
+class RefreshState extends BookState {
+  const RefreshState();
+
+  @override
+  List<Object> get props => [];
+}
