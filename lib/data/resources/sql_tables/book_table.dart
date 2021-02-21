@@ -6,6 +6,6 @@ class BookTable extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name =>
       text().withLength(
-          min: Constants.minBookTitleLength,
-          max: Constants.maxBookTitleLength)();
+          min: 1,
+          max: 30)();
 }

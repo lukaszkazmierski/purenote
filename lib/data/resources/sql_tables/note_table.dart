@@ -6,12 +6,12 @@ class NoteTable extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get book =>
       text().withLength(
-        min: Constants.minBookTitleLength,
-        max: Constants.maxBookTitleLength)();
+        min: 1,
+        max: 30)();
   TextColumn get title =>
       text().withLength(
-          min: Constants.minNoteTitleLength,
-          max: Constants.maxNoteTitleLength)();
+          min: 1,
+          max: 30)();
   DateTimeColumn get creationDate => dateTime().withDefault(Constant(DateTime.now()))();
   TextColumn get content => text()();
 }
