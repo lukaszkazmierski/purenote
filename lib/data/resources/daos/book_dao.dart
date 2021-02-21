@@ -30,8 +30,6 @@ class BookDao extends DatabaseAccessor<MoorDatabase>
     } on InvalidDataException {
       final failure = locator.getWithParam<Failure>(ExceptionCodeType.invalidDataException);
       return Left(failure);
-    } catch(e) {
-      print(e);
     }
   }
 
