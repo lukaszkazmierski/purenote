@@ -21,7 +21,8 @@ class Locator {
    void register() {
     _sl.registerFactory<BookBloc>(() => BookBloc(notebookLocalDb: _sl()));
     _sl.registerFactory<NoteBloc>(() => NoteBloc(notebookLocalDb: _sl()));
-    _sl.registerFactoryParam<Failure, ExceptionCode, void>((ec, _) => Failure(ec));
+    _sl.registerFactoryParam<Failure, ExceptionCodeType, void>((ec, _) => Failure(ec));
+    _sl.registerLazySingleton<ExceptionCode>(() => ExceptionCodeImpl());
     _sl.registerLazySingleton<ExceptionCodeTranslator>(() => ExceptionCodeTranslatorImpl());
     _dbMode();
    }
