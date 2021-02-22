@@ -39,7 +39,7 @@ class MainLayout extends StatelessWidget {
             barrierDismissible: false,
             builder: (_) {
               return WillPopScope(
-                  child: BookNameFormDialog(contextWithBloc: context, typeDial: 'Add',),
+                  child: BookNameFormDialog<AddBookDialog>(),
                   onWillPop: () async => false);
             });
       }),
@@ -54,22 +54,7 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<BookBloc, BookState>(
-      listener: (context, state) {
-        if (state is Error) {
-          final snackBar = SnackBar(
-            content: Text(state.message),
-            action: SnackBarAction(
-              label: 'Close',
-              onPressed: () {
-                // Some code to undo the change.
-              },
-            ),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        }
-      },
-      child: StreamBuilder(
+    return StreamBuilder(
           stream: context.read<BookBloc>().watchAllBooks,
           builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
             switch (snapshot.connectionState) {
@@ -82,7 +67,7 @@ class _Body extends StatelessWidget {
                   return _BookListView(bookList: snapshot.data);
                 }
             }
-          }),
+          },
     );
   }
 }
@@ -115,7 +100,7 @@ class _BookListView extends StatelessWidget {
                       barrierDismissible: false,
                       builder: (_) {
                         return WillPopScope(
-                            child: BookNameFormDialog(contextWithBloc: context, typeDial: 'Rename',),
+                            child: BookNameFormDialog<RenameBookDialog>(),
                             onWillPop: () async => false);
                       }).then((name) => context.read<BookBloc>().add(RenameBook(book: bookList[index],name: name as String)));
 
