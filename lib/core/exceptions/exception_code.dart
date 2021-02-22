@@ -1,6 +1,6 @@
 enum ExceptionCodeType {
   invalidDataException,
-
+  itemAlreadyExists,
   unknownError
 }
 
