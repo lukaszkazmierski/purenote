@@ -8,4 +8,6 @@ abstract class DbActions<D extends DataClass> {
   Future<Either<Failure, int>> insertItem(Insertable<D> item);
   Future<Either<Failure, bool>> updateItem(Insertable<D> item);
   Future deleteItem(Insertable<D> item);
+  Future<Either<Failure, bool>> isExists({String itemName});
 }
+

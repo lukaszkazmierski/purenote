@@ -11,8 +11,8 @@ part 'book_dao.g.dart';
 
 @UseDao(tables: [BookTable])
 class BookDao extends DatabaseAccessor<MoorDatabase>
-    with _$BookDaoMixin implements DbActions<Book>  {
-
+    with _$BookDaoMixin
+    implements DbActions<Book> {
   final MoorDatabase db;
 
   BookDao(this.db) : super(db);
@@ -28,7 +28,8 @@ class BookDao extends DatabaseAccessor<MoorDatabase>
       final insertStatus = await into(bookTable).insert(book);
       return Right(insertStatus);
     } on InvalidDataException {
-      final failure = locator.getWithParam<Failure>(ExceptionCodeType.invalidDataException);
+      final failure =
+          locator.getWithParam<Failure>(ExceptionCodeType.invalidDataException);
       return Left(failure);
     }
   }
@@ -39,11 +40,27 @@ class BookDao extends DatabaseAccessor<MoorDatabase>
       final updateStatus = await update(bookTable).replace(book);
       return Right(updateStatus);
     } on InvalidDataException {
-      final failure = locator.getWithParam<Failure>(ExceptionCodeType.invalidDataException);
+      final failure =
+          locator.getWithParam<Failure>(ExceptionCodeType.invalidDataException);
       return Left(failure);
     }
   }
-  @override
-  Future deleteItem(Insertable<Book> note) => delete(bookTable).delete(note);
-}
 
+  @override
+  Future deleteItem(Insertable<Book> book) => delete(bookTable).delete(book);
+
+  @override
+  Future<Either<Failure, bool>> isExists({String itemName}) async {
+    final result = await (select(bookTable)
+          ..where((tbl) => tbl.name.equals(itemName))
+          ..limit(1))
+        .getSingle();
+
+    if (result != null) {
+      final failure = locator.getWithParam<Failure>(ExceptionCodeType.itemAlreadyExists);
+      return Left(failure);
+    }
+    return const Right(false);
+
+  }
+}
