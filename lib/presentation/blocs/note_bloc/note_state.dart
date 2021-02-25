@@ -24,3 +24,12 @@ class NoteUpdated extends NoteState {
   @override
   List<Object> get props => [];
 }
+
+class Error extends NoteState {
+  final String message;
+
+  const Error(this.message);
+
+  @override
+  List<Object> get props => [message];
+}
