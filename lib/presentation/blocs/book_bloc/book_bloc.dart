@@ -67,12 +67,21 @@ class BookBloc extends Bloc<BookEvent, BookState> {
   }
 
   Stream<BookState> mapRenameBookToState(RenameBook event) async* {
+    final bookExists = await notebookLocalDb.book.isExists(itemName: event.name);
+    final dynamic bookExistsExceptionStatus = _onException<bool>(bookExists);
+
+    if (bookExistsExceptionStatus is ExceptionCodeType) {
+      yield Error(_codeTranslator(bookExistsExceptionStatus));
+      yield const RefreshState();
+      return;
+    }
+
     final updatedBook = event.book.copyWith(name: event.name);
     final updateStatus = await notebookLocalDb.book.updateItem(updatedBook);
 
     final dynamic exceptionStatus = _onException<bool>(updateStatus);
     if (exceptionStatus is bool) {
-      yield const BookListUpdate();
+      yield const BookRenameUpdate();
     } else {
       yield Error(_codeTranslator(exceptionStatus as ExceptionCodeType));
       yield const RefreshState();

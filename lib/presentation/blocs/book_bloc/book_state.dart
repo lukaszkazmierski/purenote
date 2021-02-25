@@ -21,6 +21,13 @@ class BookListUpdate extends BookState {
   List<Object> get props => [];
 }
 
+class BookRenameUpdate extends BookState {
+  const BookRenameUpdate();
+
+  @override
+  List<Object> get props => [];
+}
+
 class Error extends BookState {
   final String message;
 
