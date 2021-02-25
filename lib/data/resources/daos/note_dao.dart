@@ -1,4 +1,7 @@
+import 'package:dartz/dartz.dart';
 import 'package:moor_flutter/moor_flutter.dart';
+import 'package:notebook/core/exceptions/exception_code.dart';
+import 'package:notebook/core/exceptions/failure.dart';
 import 'package:notebook/data/resources/moor_config/moor_database.dart';
 import 'package:notebook/data/resources/sql_tables/note_table.dart';
 import 'package:notebook/data/resources/daos/db_actions.dart';
@@ -25,9 +28,27 @@ class NoteDao extends DatabaseAccessor<MoorDatabase>
           ..where((tbl) => tbl.book.equals(bookName))
       ).watch();
   @override
-  Future insertItem(Insertable<Note> note) => into(noteTable).insert(note);
+  Future<Either<Failure, int>> insertItem(Insertable<Note> note) async {
+    try {
+      final insertStatus = await into(noteTable).insert(note);
+      return Right(insertStatus);
+    } on InvalidDataException {
+      return Left(Failure(ExceptionCodeType.invalidDataException));
+    }
+  }
   @override
-  Future updateItem(Insertable<Note> note) => update(noteTable).replace(note);
+  Future<Either<Failure, bool>> updateItem(Insertable<Note> note) async {
+    try {
+      final updateStatus = await update(noteTable).replace(note);
+      return Right(updateStatus);
+    } on InvalidDataException {
+      return Left(Failure(ExceptionCodeType.invalidDataException));
+    }
+  }
+
   @override
   Future deleteItem(Insertable<Note> note) => delete(noteTable).delete(note);
+
+  @override
+  Future<Either<Failure, bool>> isExists({String itemName}) => throw UnimplementedError();
 }
