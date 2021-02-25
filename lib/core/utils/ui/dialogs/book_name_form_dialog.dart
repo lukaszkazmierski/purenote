@@ -13,8 +13,9 @@ class RenameBookDialog implements BookNameFormDialogType {}
 
 class BookNameFormDialog<T>
     extends StatelessWidget {
+  final Book book;
 
-  const BookNameFormDialog({Key key})
+  const BookNameFormDialog({this.book, Key key})
       : super(key: key);
 
   @override
@@ -34,7 +35,7 @@ class BookNameFormDialog<T>
                     width: MediaQuery.of(context).size.width * 0.6,
                     height: MediaQuery.of(context).size.height * 0.25,
                     color: Colors.white,
-                    child: _DialogContent<T>())
+                    child: _DialogContent<T>(book: book))
               ],
             ),
           )),
@@ -44,9 +45,11 @@ class BookNameFormDialog<T>
 
 class _DialogContent<T> extends StatelessWidget {
   final TextEditingController _nameFieldController = TextEditingController();
-  static final _nameFieldKey = GlobalKey<FormState>();
+  final Book book;
+  String currentErr;
 
   _DialogContent({
+    this.book,
     Key key,
   }) : super(key: key);
 
@@ -54,17 +57,10 @@ class _DialogContent<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<BookBloc, BookState>(
       listener: (context, state) {
-        if (state is Error) {
-          final snackBar = SnackBar(
-            content: Text(state.message),
-            action: SnackBarAction(
-              label: 'Close',
-              onPressed: () {
-
-              },
-            ),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        if (state is BookListUpdate || state is BookRenameUpdate) {
+          Navigator.pop(context);
+        } else if (state is Error) {
+          currentErr = state.message;
         }
       },
       child: FractionallySizedBox(
@@ -77,16 +73,20 @@ class _DialogContent<T> extends StatelessWidget {
             else
               const Text('Creating a new book'),
 
-            TextFormField(
-              key: _nameFieldKey,
-              controller: _nameFieldController,
-              maxLength: Constants.maxBookTitleLength,
-              validator: (String value) {
+            BlocBuilder<BookBloc, BookState>(
+              builder: (context, builder) {
+                return TextFormField(
+                  controller: _nameFieldController,
+                  maxLength: Constants.maxBookTitleLength,
+                  decoration: InputDecoration(
+                      labelText: 'name',
+                      errorText: currentErr
+                  ),
+                );
               },
-              decoration: const InputDecoration(
-                labelText: 'name',
-              ),
             ),
+
+
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -99,13 +99,11 @@ class _DialogContent<T> extends StatelessWidget {
                 RawMaterialButton(
                     onPressed: () {
                       if (_isRenameBookDialogType()) {
-                        _nameFieldKey.currentState.validate();
-                        Navigator.pop(context, _nameFieldController.text);
+                        context.read<BookBloc>().add(RenameBook(book: book, name: _nameFieldController.text));
                       } else {
                         final book = BookTableCompanion(
                             name: Value<String>(_nameFieldController.text));
                         context.read<BookBloc>().add(AddingNewBook(book));
-                        Navigator.pop(context);
                       }
                     },
                     child: _isRenameBookDialogType()
