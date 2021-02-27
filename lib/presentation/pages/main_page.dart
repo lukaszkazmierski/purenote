@@ -100,10 +100,9 @@ class _BookListView extends StatelessWidget {
                       barrierDismissible: false,
                       builder: (_) {
                         return WillPopScope(
-                            child: BookNameFormDialog<RenameBookDialog>(),
+                            child: BookNameFormDialog<RenameBookDialog>(book: bookList[index]),
                             onWillPop: () async => false);
-                      }).then((name) => context.read<BookBloc>().add(RenameBook(book: bookList[index],name: name as String)));
-
+                      });
                 }
               },
               itemBuilder: (BuildContext context) {
