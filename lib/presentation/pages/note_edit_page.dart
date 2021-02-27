@@ -1,13 +1,15 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notebook/core/constants/constants.dart';
 import 'package:notebook/presentation/blocs/note_bloc/note_bloc.dart';
 import 'package:notebook/service_locator/service_locator.dart';
 
 TextEditingController _titleTextController;
 TextEditingController _contentTextController;
-
 
 class NoteEditPage extends StatelessWidget {
   final note;
@@ -38,12 +40,13 @@ class _MainLayoutState extends State<MainLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('note edit'),
-        ),
-        body: BlocBuilder<NoteBloc, NoteState>(
-            builder: (BuildContext context, state) {
-          return _Body(note: note);
-        }));
+              title: Text('note edit'),
+            ),
+            body: BlocBuilder<NoteBloc, NoteState>(
+                builder: (BuildContext context, state) {
+              return _Body(note: note);
+            }));
+
   }
 }
 
@@ -56,101 +59,144 @@ class MainLayout extends StatefulWidget {
   _MainLayoutState createState() => _MainLayoutState();
 }
 
-class _Body extends StatelessWidget {
-  final Note note;
 
-  const _Body({
-    Key key,
-    @required this.note
-  }) : super(key: key);
-
-
-  @override
-  Widget build(BuildContext context) {
-    return WillPopScope(
-        child: SingleChildScrollView(
-            physics: const ClampingScrollPhysics(),
-            child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minWidth: MediaQuery.of(context).size.width,
-                  minHeight: MediaQuery.of(context).size.height,
-                ),
-                child: IntrinsicHeight(
-                  child: _NoteForm(note: note),
-                ))),
-        onWillPop: () {
-          context.read<NoteBloc>().add(UpdateNote(note.copyWith(
-              title: _titleTextController.text,
-              content: _contentTextController.text)));
-          return Future.value(true);
-        });
-  }
-}
-
-class _NoteFormState extends State<_NoteForm> {
-  final _formKey = GlobalKey<FormState>();
-  Timer updateNoteTimer;
+class _BodyState extends State<_Body> {
+  ScrollController _scrollController;
   Note note;
 
   @override
   void initState() {
+    super.initState();
+    _scrollController = ScrollController();
     note = widget.note;
-    updateNoteTimer = periodicUpdateNote();
+
+    _scrollController.addListener(_scrollListener);
+
+  }
+
+  void _scrollListener() {
+    /*if (_scrollController.offset % sizee >= 80) {
+      numberOfLines--;
+    } else if (_scrollController.offset % sizee <= 5) {
+      numberOfLines++;
+
+    }*/
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    return BlocListener<NoteBloc, NoteState>(
+        listener: (context, state) {},
+        child: WillPopScope(
+            child: SingleChildScrollView(
+              controller: _scrollController,
+                physics: const ClampingScrollPhysics(),
+                child: CustomPaint(
+                    painter: PagePainter(
+                      scrollController: _scrollController,
+                      screenHeight: MediaQuery.of(context).size.height
+                    ),
+                    size: Size.infinite,
+                    child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minWidth: MediaQuery.of(context).size.width,
+                          minHeight: MediaQuery.of(context).size.height,
+                        ),
+                        child: IntrinsicHeight(
+                          child: _NoteForm(note: note),
+                        ))
+                )
+
+                ),
+            onWillPop: () {
+              context.read<NoteBloc>().add(UpdateNote(note.copyWith(
+                  title: _titleTextController.text,
+                  content: _contentTextController.text)));
+
+              return Future.value(true);
+            }));
+  }
+}
+
+class _Body extends StatefulWidget {
+  final Note note;
+
+  const _Body({@required this.note});
+
+  @override
+  _BodyState createState() => _BodyState();
+}
+
+class _NoteFormState extends State<_NoteForm> {
+  final _formKey = GlobalKey<FormState>();
+  Note note;
+  String currentErr;
+  @override
+  void initState() {
+    note = widget.note;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FractionallySizedBox(
-      alignment: Alignment.topCenter,
-      widthFactor: 0.95,
-      heightFactor: 0.95,
-      child: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            Expanded(
-                child: TextFormField(
+    return BlocListener<NoteBloc, NoteState>(
+      listener: (context, state) {
+        if (state is Error) {
+          currentErr = state.message;
+        } else {
+          currentErr = null;
+        }
+      },
+      child: FractionallySizedBox(
+          alignment: Alignment.topCenter,
+          widthFactor: 0.95,
+          heightFactor: 0.95,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                Expanded(
+                    child: TextFormField(
                   controller: _titleTextController,
-                  onSaved: onSave,
-                  maxLength: 30,
-
-
-                )),
-            Expanded(
-                flex: 12,
-                child: TextFormField(
-                  controller: _contentTextController,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Your content note',
+                  onChanged: (String value) {
+                    context
+                        .read<NoteBloc>()
+                        .add(UpdateNote(note.copyWith(title: value)));
+                  },
+                  maxLength: Constants.maxNoteTitleLength,
+                  decoration: InputDecoration(
+                    errorText: currentErr,
                   ),
-                  onSaved: onSave,
-                  maxLines: null,
                 )),
-          ],
-        ),
-      )
+                Expanded(
+                    flex: 12,
+                    child: TextFormField(
+                      controller: _contentTextController,
+                      textInputAction: TextInputAction.newline,
+                      keyboardType: TextInputType.multiline,
+                      expands: true,
+                      style: TextStyle(height: 2, ),
+                      onChanged: (String value) {
+                        context
+                            .read<NoteBloc>()
+                            .add(UpdateNote(note.copyWith(content: value)));
+                      },
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Your content',
+                      ),
+                      maxLines: null,
+                    )),
+              ],
+            ),
+          )),
     );
-  }
-
-
-
-  void onSave(String value) {
-    context.read<NoteBloc>().add(UpdateNote(note.copyWith(
-        title: _titleTextController.text,
-        content: _contentTextController.text)));
-  }
-
-  Timer periodicUpdateNote() {
-    return Timer.periodic(const Duration(seconds: 10), (timer) {
-      _formKey.currentState.save();
-    });
   }
 
   @override
   void dispose() {
-    updateNoteTimer.cancel();
     super.dispose();
   }
 }
@@ -165,3 +211,72 @@ class _NoteForm extends StatefulWidget {
 }
 
 
+class MultipleLinesPainterController {
+  final ScrollController _scrollController;
+  final double _offsetBetweenLinesModulo;
+  final startPosMultiplier = 0.124;
+  final betweenLinesPosMultiplier = 0.036;
+  final int initNumberOfLines;
+  int currentNumberOfLines;
+
+
+  MultipleLinesPainterController({@required ScrollController scrollController,@required double screenHeight}) :
+        _scrollController = scrollController,
+        _offsetBetweenLinesModulo = screenHeight * 0.124,
+        initNumberOfLines = ((screenHeight * 0.6) / (screenHeight * 0.036)).round() {
+    currentNumberOfLines = initNumberOfLines;
+
+  }
+
+  void shouldRecalculateLines() {
+    switch(_scrollController.position.userScrollDirection) {
+      case ScrollDirection.reverse:
+        if (_scrollController.offset % _offsetBetweenLinesModulo >= 40) {
+          currentNumberOfLines++;
+        }
+        break;
+
+      case ScrollDirection.forward:
+        if (currentNumberOfLines > initNumberOfLines
+            && _offsetBetweenLinesModulo - 10<= _scrollController.offset % _offsetBetweenLinesModulo) {
+          currentNumberOfLines--;
+        }
+        if(_scrollController.offset <= 5) {
+          currentNumberOfLines = initNumberOfLines;
+        }
+        break;
+      case ScrollDirection.idle:
+        break;
+    }
+  }
+}
+
+
+class PagePainter extends CustomPainter {
+  final MultipleLinesPainterController _controller;
+
+  PagePainter({@required ScrollController scrollController ,@required double screenHeight})
+      : _controller = MultipleLinesPainterController(
+    scrollController: scrollController,
+      screenHeight: screenHeight);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    _controller.shouldRecalculateLines();
+
+    final paintDarkgrey = Paint()
+      ..color = Colors.blueGrey
+      ..strokeWidth = 1.0;
+
+    for(int i = 0; i < _controller.currentNumberOfLines; i++) {
+      canvas.drawLine(Offset(size.width * 0.03, size.height * (_controller.startPosMultiplier + (i * _controller.betweenLinesPosMultiplier))),
+          Offset(size.width * 0.97, size.height * (_controller.startPosMultiplier + (i * _controller.betweenLinesPosMultiplier))), paintDarkgrey);
+    }
+    print(_controller.currentNumberOfLines);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return oldDelegate != this;
+  }
+}
