@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart' hide Router;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:auto_route/auto_route.dart' show ExtendedNavigator;
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:notebook/core/config/theme/app_themes.dart';
 import 'package:notebook/core/utils/routes/router.gr.dart';
 import 'package:notebook/presentation/blocs/book_bloc/book_bloc.dart';
 import 'package:notebook/presentation/widgets/add_item_btn.dart';
@@ -55,26 +57,28 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-          stream: context.read<BookBloc>().watchAllBooks,
-          builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-                return const CenteredCircularProgressIndicator();
-              default:
-                if (snapshot.hasError) {
-                  return const CenteredCircularProgressIndicator();
-                } else {
-                  return _BookListView(bookList: snapshot.data);
-                }
+      stream: context.read<BookBloc>().watchAllBooks,
+      builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return const CenteredCircularProgressIndicator();
+          default:
+            if (snapshot.hasError) {
+              return const CenteredCircularProgressIndicator();
+            } else {
+              return _BookListView(bookList: snapshot.data);
             }
-          },
+        }
+      },
     );
   }
 }
 
 class _BookListView extends StatelessWidget {
+  final SlidableController slidableController = SlidableController();
   final List<Book> bookList;
-  const _BookListView({
+
+  _BookListView({
     this.bookList,
     Key key,
   }) : super(key: key);
@@ -84,37 +88,64 @@ class _BookListView extends StatelessWidget {
     return ListView.builder(
         itemCount: bookList.length,
         itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text(bookList[index].name),
-            leading: const Icon(Icons.library_books),
-            onTap: () {
-              ExtendedNavigator.of(context).push(Routes.bookWithNotesPage, arguments: BookWithNotesPageArguments(bookName: bookList[index].name));
-            },
-            trailing: PopupMenuButton<String>(
-              onSelected: (action) {
-                if (action == 'Delete') {
-                  context.read<BookBloc>().add(RemoveBook(bookList[index]));
-                } else {
-                  showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (_) {
-                        return WillPopScope(
-                            child: BookNameFormDialog<RenameBookDialog>(book: bookList[index]),
-                            onWillPop: () async => false);
-                      });
-                }
-              },
-              itemBuilder: (BuildContext context) {
-                return <String>['Rename', 'Delete'].map((e) {
-                  return PopupMenuItem<String>(
-                    value: e,
-                    child: Text(e),
-                  );
-                }).toList();
-              },
-            ),
-          );
+          return SlidableListTile(
+            book: bookList[index],
+            slidableController: slidableController,);
         });
+  }
+}
+
+class SlidableListTile extends StatelessWidget {
+  final SlidableController slidableController;
+
+  const SlidableListTile({
+    Key key,
+    @required this.book,
+    @required this.slidableController
+  }) : super(key: key);
+
+  final Book book;
+
+  @override
+  Widget build(BuildContext context) {
+    return Slidable(
+      key: Key(book.name),
+      controller: slidableController,
+      actionExtentRatio: 0.2,
+      actionPane: const SlidableStrechActionPane(),
+        child: ListTileTheme(
+            iconColor: lightTheme.listTileIconColor,
+            child: ListTile(
+              title: Text(book.name),
+              leading: const Icon(Icons.book),
+              onTap: () {
+                Slidable.of(context).close();
+                ExtendedNavigator.of(context).push(Routes.bookWithNotesPage,
+                    arguments: BookWithNotesPageArguments(
+                        bookName: book.name));
+              },
+            )),
+        secondaryActions: <Widget>[
+          IconSlideAction(
+            caption: 'Rename',
+            color: Colors.black45,
+            icon: Icons.drive_file_rename_outline,
+            onTap: () => showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (_) {
+                  return WillPopScope(
+                      child: BookNameFormDialog<RenameBookDialog>(
+                          book: book),
+                      onWillPop: () async => false);
+                }),
+          ),
+          IconSlideAction(
+            caption: 'Delete',
+            color: Color( 0xffd32f2f ),
+            icon: Icons.delete,
+            onTap: () => context.read<BookBloc>().add(RemoveBook(book)),
+          ),
+        ],);
   }
 }
