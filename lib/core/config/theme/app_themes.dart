@@ -9,24 +9,38 @@ abstract class Theme {
 class LightTheme implements Theme {
   @override
   ThemeData getTheme() => ThemeData(
+        //General
         brightness: Brightness.light,
-        primaryColor: Colors.teal,
         accentColor: const Color(0xff009688),
         accentColorBrightness: Brightness.dark,
-        scaffoldBackgroundColor: const Color(0xfffafafa),
-        bottomAppBarColor: const Color(0xffffffff),
-        cardColor: const Color(0xffffffff),
-        dividerColor: const Color(0x1f000000),
+        backgroundColor: const Color(0xff80cbc4),
+        indicatorColor: const Color(0xff009688),
+
+        //Splash
         highlightColor: const Color(0x66bcbcbc),
         splashColor: const Color(0x66c8c8c8),
-        selectedRowColor: const Color(0xfff5f5f5),
+
+        //disabled inoperative widgets
         unselectedWidgetColor: const Color(0x8a000000),
         disabledColor: const Color(0x61000000),
+
+        //AppBar
+        primaryColor: Colors.teal,
+
+        //Scaffold
+        scaffoldBackgroundColor: const Color(0xfffafafa),
+
+        //Floating Button
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+            backgroundColor: Color(0xff009688)),
+        //Icons
+        iconTheme: const IconThemeData(opacity: 1, size: 24),
+
+        //Text & TextFields
         textSelectionTheme: const TextSelectionThemeData(
             selectionColor: Color(0xff80cbc4),
             cursorColor: Color(0xff4285f4),
             selectionHandleColor: Color(0xff4db6ac)),
-        iconTheme: const IconThemeData(opacity: 1, size: 24),
         textTheme: const TextTheme(
           //ListTile
           subtitle1: TextStyle(
@@ -35,17 +49,34 @@ class LightTheme implements Theme {
             fontStyle: FontStyle.normal,
           ),
         ),
-        backgroundColor: const Color(0xff80cbc4),
-        dialogBackgroundColor: const Color(0xffffffff),
-        indicatorColor: const Color(0xff009688),
+
         hintColor: const Color(0x8a000000),
         errorColor: const Color(0xffd32f2f),
-        floatingActionButtonTheme: const FloatingActionButtonThemeData(
-            backgroundColor: Color(0xff009688)),
         focusColor: const Color(0x1f000000),
         hoverColor: const Color(0x0a000000),
+
+        //Dialog
+        dialogBackgroundColor: const Color(0xffffffff),
+
+        //Scheme
+        colorScheme: const ColorScheme(
+          primary: Color(0xff009688),
+          primaryVariant: Color(0xff00796b),
+          secondary: Color(0xff009688),
+          secondaryVariant: Color(0xff00796b),
+          surface: Color(0xffffffff),
+          background: Color(0xff80cbc4),
+          error: Color(0xffd32f2f),
+          onPrimary: Color(0xffffffff),
+          onSecondary: Color(0xffffffff),
+          onSurface: Color(0xff000000),
+          onBackground: Color(0xffffffff),
+          onError: Color(0xffffffff),
+          brightness: Brightness.light,
+        ),
       );
 
+  @override
   Color get listTileIconColor => const Color(0xdd000000);
 }
 
