@@ -119,7 +119,6 @@ class SlidableListTile extends StatelessWidget {
               title: Text(book.name),
               leading: const Icon(Icons.book),
               onTap: () {
-                Slidable.of(context).close();
                 ExtendedNavigator.of(context).push(Routes.bookWithNotesPage,
                     arguments: BookWithNotesPageArguments(
                         bookName: book.name));
