@@ -47,7 +47,7 @@ class MainLayout extends StatelessWidget {
                   return ListView.builder(
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return SlidableTile(note: snapshot.data[index]);
+                        return SlidableListTile(note: snapshot.data[index]);
                       });
                 }
             }
@@ -61,11 +61,11 @@ class MainLayout extends StatelessWidget {
   }
 }
 
-class SlidableTile extends StatelessWidget {
+class SlidableListTile extends StatelessWidget {
   final SlidableController slidableController = SlidableController();
   final Note note;
 
-  SlidableTile({
+  SlidableListTile({
     Key key,
     @required this.note,
   }) : super(key: key);
