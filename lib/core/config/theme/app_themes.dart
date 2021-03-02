@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-abstract class Theme {
+abstract class AppTheme {
   ThemeData getTheme();
   Color get listTileIconColor;
+  TextStyle textStyle({double fontSize});
 }
 
-class LightTheme implements Theme {
+class LightTheme implements AppTheme {
   @override
   ThemeData getTheme() => ThemeData(
         //General
@@ -41,10 +42,18 @@ class LightTheme implements Theme {
             selectionColor: Color(0xff80cbc4),
             cursorColor: Color(0xff4285f4),
             selectionHandleColor: Color(0xff4db6ac)),
-        textTheme: const TextTheme(
-          //ListTile
-          subtitle1: TextStyle(
-            color: Color(0xdd000000),
+
+        textTheme: TextTheme(
+
+          //ListTile title text
+          subtitle1: GoogleFonts.openSans(
+            color: const Color(0xdd000000),
+            fontWeight: FontWeight.w400,
+            fontStyle: FontStyle.normal,
+          ),
+          headline4: GoogleFonts.openSans(
+            color: const Color(0xdd000000),
+            fontSize: 30,
             fontWeight: FontWeight.w400,
             fontStyle: FontStyle.normal,
           ),
@@ -78,6 +87,9 @@ class LightTheme implements Theme {
 
   @override
   Color get listTileIconColor => const Color(0xdd000000);
+
+  @override
+  TextStyle textStyle({double fontSize}) => GoogleFonts.openSans(fontSize: fontSize);
 }
 
-Theme lightTheme = LightTheme();
+AppTheme lightTheme = LightTheme();
