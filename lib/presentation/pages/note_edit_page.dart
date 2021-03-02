@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:notebook/core/constants/constants.dart';
 import 'package:notebook/presentation/blocs/note_bloc/note_bloc.dart';
 import 'package:notebook/service_locator/service_locator.dart';
@@ -69,37 +70,19 @@ class _BodyState extends State<_Body> {
     super.initState();
     _scrollController = ScrollController();
     note = widget.note;
-
-    _scrollController.addListener(_scrollListener);
-
   }
 
-  void _scrollListener() {
-    /*if (_scrollController.offset % sizee >= 80) {
-      numberOfLines--;
-    } else if (_scrollController.offset % sizee <= 5) {
-      numberOfLines++;
 
-    }*/
-
-  }
 
   @override
   Widget build(BuildContext context) {
-
     return BlocListener<NoteBloc, NoteState>(
         listener: (context, state) {},
         child: WillPopScope(
             child: SingleChildScrollView(
               controller: _scrollController,
                 physics: const ClampingScrollPhysics(),
-                child: CustomPaint(
-                    painter: PagePainter(
-                      scrollController: _scrollController,
-                      screenHeight: MediaQuery.of(context).size.height
-                    ),
-                    size: Size.infinite,
-                    child: ConstrainedBox(
+                child: ConstrainedBox(
                         constraints: BoxConstraints(
                           minWidth: MediaQuery.of(context).size.width,
                           minHeight: MediaQuery.of(context).size.height,
@@ -107,8 +90,6 @@ class _BodyState extends State<_Body> {
                         child: IntrinsicHeight(
                           child: _NoteForm(note: note),
                         ))
-                )
-
                 ),
             onWillPop: () {
               context.read<NoteBloc>().add(UpdateNote(note.copyWith(
@@ -157,27 +138,38 @@ class _NoteFormState extends State<_NoteForm> {
             key: _formKey,
             child: Column(
               children: [
-                Expanded(
-                    child: TextFormField(
-                  controller: _titleTextController,
-                  onChanged: (String value) {
-                    context
-                        .read<NoteBloc>()
-                        .add(UpdateNote(note.copyWith(title: value)));
-                  },
-                  maxLength: Constants.maxNoteTitleLength,
-                  decoration: InputDecoration(
-                    errorText: currentErr,
-                  ),
-                )),
+                Row(
+                  children: [
+                    Expanded(child: Icon(Icons.title)),
+                    Expanded(
+                      flex: 11,
+
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: TextFormField(
+                            controller: _titleTextController,
+                            onChanged: (String value) {
+                              context
+                                  .read<NoteBloc>()
+                                  .add(UpdateNote(note.copyWith(title: value)));
+                            },
+                            maxLength: Constants.maxNoteTitleLength,
+                            decoration: InputDecoration(
+                              errorText: currentErr,
+                            ),
+                          ),
+                        )),
+                  ],
+                ),
                 Expanded(
                     flex: 12,
                     child: TextFormField(
                       controller: _contentTextController,
                       textInputAction: TextInputAction.newline,
                       keyboardType: TextInputType.multiline,
+
                       expands: true,
-                      style: TextStyle(height: 2, ),
+                      style: TextStyle(height: 1.4),
                       onChanged: (String value) {
                         context
                             .read<NoteBloc>()
@@ -186,6 +178,8 @@ class _NoteFormState extends State<_NoteForm> {
                       decoration: const InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Your content',
+
+
                       ),
                       maxLines: null,
                     )),
@@ -210,19 +204,19 @@ class _NoteForm extends StatefulWidget {
   _NoteFormState createState() => _NoteFormState();
 }
 
-
+/*
 class MultipleLinesPainterController {
   final ScrollController _scrollController;
   final double _offsetBetweenLinesModulo;
-  final startPosMultiplier = 0.124;
-  final betweenLinesPosMultiplier = 0.036;
+  final startPosMultiplier = 0.176;
+  final betweenLinesPosMultiplier = 0.056;
   final int initNumberOfLines;
   int currentNumberOfLines;
 
 
   MultipleLinesPainterController({@required ScrollController scrollController,@required double screenHeight}) :
         _scrollController = scrollController,
-        _offsetBetweenLinesModulo = screenHeight * 0.124,
+        _offsetBetweenLinesModulo = screenHeight * 0.184,
         initNumberOfLines = ((screenHeight * 0.6) / (screenHeight * 0.036)).round() {
     currentNumberOfLines = initNumberOfLines;
 
@@ -231,7 +225,7 @@ class MultipleLinesPainterController {
   void shouldRecalculateLines() {
     switch(_scrollController.position.userScrollDirection) {
       case ScrollDirection.reverse:
-        if (_scrollController.offset % _offsetBetweenLinesModulo >= 40) {
+        if (_scrollController.offset % _offsetBetweenLinesModulo >= 30) {
           currentNumberOfLines++;
         }
         break;
@@ -265,18 +259,17 @@ class PagePainter extends CustomPainter {
     _controller.shouldRecalculateLines();
 
     final paintDarkgrey = Paint()
-      ..color = Colors.blueGrey
+      ..color = Colors.black
       ..strokeWidth = 1.0;
 
     for(int i = 0; i < _controller.currentNumberOfLines; i++) {
-      canvas.drawLine(Offset(size.width * 0.03, size.height * (_controller.startPosMultiplier + (i * _controller.betweenLinesPosMultiplier))),
-          Offset(size.width * 0.97, size.height * (_controller.startPosMultiplier + (i * _controller.betweenLinesPosMultiplier))), paintDarkgrey);
+      canvas.drawLine(Offset(0, size.height * (_controller.startPosMultiplier + (i * _controller.betweenLinesPosMultiplier))),
+          Offset(size.width, size.height * (_controller.startPosMultiplier + (i * _controller.betweenLinesPosMultiplier))), paintDarkgrey);
     }
-    print(_controller.currentNumberOfLines);
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return oldDelegate != this;
   }
-}
+}*/
