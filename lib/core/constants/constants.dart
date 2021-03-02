@@ -4,4 +4,6 @@ class Constants {
 
   static const int minNoteTitleLength = 1;
   static const int maxNoteTitleLength = 30;
+
+  static const errorMaxLines = 2;
 }
