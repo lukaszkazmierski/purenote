@@ -8,6 +8,7 @@ import 'package:notebook/presentation/blocs/book_bloc/book_bloc.dart';
 import 'package:notebook/presentation/widgets/add_item_btn.dart';
 import 'package:notebook/presentation/widgets/centered_circular_progress_indicator.dart';
 import 'package:notebook/core/utils/ui/dialogs/book_name_form_dialog.dart';
+import 'package:notebook/presentation/widgets/note_app_bar.dart';
 import 'package:notebook/service_locator/service_locator.dart';
 
 class MainPage extends StatelessWidget {
@@ -31,9 +32,7 @@ class MainLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Text('main'),
-      ),
+      appBar: const NoteAppBar(title: 'Notebooks')(),
       body: const _Body(),
       floatingActionButton: AddItemBtn(onPressed: () {
         showDialog(

@@ -9,6 +9,7 @@ import 'package:notebook/data/resources/moor_config/moor_database.dart';
 import 'package:notebook/presentation/blocs/note_bloc/note_bloc.dart';
 import 'package:notebook/presentation/widgets/add_item_btn.dart';
 import 'package:notebook/presentation/widgets/centered_circular_progress_indicator.dart';
+import 'package:notebook/presentation/widgets/note_app_bar.dart';
 import 'package:notebook/service_locator/service_locator.dart';
 
 class BookWithNotesPage extends StatelessWidget {
@@ -31,9 +32,7 @@ class MainLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('notes'),
-      ),
+      appBar: NoteAppBar(title: bookName)(),
       body: StreamBuilder(
           stream: context.read<NoteBloc>().watchAllNotes(bookName),
           builder: (BuildContext context, AsyncSnapshot<List<Note>> snapshot) {

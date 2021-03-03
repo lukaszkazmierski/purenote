@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notebook/core/constants/constants.dart';
 import 'package:notebook/presentation/blocs/note_bloc/note_bloc.dart';
+import 'package:notebook/presentation/widgets/note_app_bar.dart';
 import 'package:notebook/service_locator/service_locator.dart';
 
 TextEditingController _titleTextController;
@@ -40,9 +41,7 @@ class _MainLayoutState extends State<MainLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-              title: Text('note edit'),
-            ),
+        appBar: const NoteAppBar(title: '')(),
             body: BlocBuilder<NoteBloc, NoteState>(
                 builder: (BuildContext context, state) {
               return _Body(note: note);
