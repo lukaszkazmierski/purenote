@@ -89,9 +89,9 @@ class _DialogContentState<T> extends State<_DialogContent> {
                 height: MediaQuery.of(context).size.height * 0.05,
               ),
               if (_isRenameBookDialogType())
-                Text('Rename book', style: lightTheme.textStyle(fontSize: 17))
+                Text('Rename notebook', style: lightTheme.textStyle(fontSize: 17))
               else
-                Text('Creating a new book',
+                Text('Creating a new notebook',
                     style: lightTheme.textStyle(fontSize: 17)),
               BlocBuilder<BookBloc, BookState>(
                 builder: (context, builder) {
@@ -100,7 +100,7 @@ class _DialogContentState<T> extends State<_DialogContent> {
                     maxLength: Constants.maxBookTitleLength,
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.only(bottom: 4, top: 10),
-                        labelText: 'book name',
+                        labelText: 'notebook name',
                         errorText: currentErr,
                         errorMaxLines: Constants.errorMaxLines,
                         counterText: "",
