@@ -75,20 +75,42 @@ class SlidableListTile extends StatelessWidget {
         key: Key(note.title),
         controller: slidableController,
         actionPane: const SlidableDrawerActionPane(),
-        child: ListTile(
-          title: Text(note.title),
-          onTap: () {
-            ExtendedNavigator.of(context).push(Routes.noteEditPage,
-                arguments: NoteEditPageArguments(note: note));
-          },
-        ),
         secondaryActions: <Widget>[
           IconSlideAction(
             caption: 'Delete',
-            color: Colors.red,
+            color: Theme.of(context).colorScheme.error,
             icon: Icons.delete,
             onTap: () => context.read<NoteBloc>().add(RemoveNote(note)),
           ),
-        ]);
+        ],
+      child: Tile(note: note),
+    );
+  }
+}
+
+class Tile extends StatelessWidget {
+  const Tile({
+    Key key,
+    @required this.note,
+  }) : super(key: key);
+
+  final Note note;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(width: 0.7, color: Theme.of(context).dividerColor)
+        )
+      ),
+      child: ListTile(
+        title: Text(note.title),
+        onTap: () {
+          ExtendedNavigator.of(context).push(Routes.noteEditPage,
+              arguments: NoteEditPageArguments(note: note));
+        },
+      ),
+    );
   }
 }
