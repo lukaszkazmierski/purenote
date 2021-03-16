@@ -99,7 +99,7 @@ class _DialogContentState<T> extends State<_DialogContent> {
                     controller: _nameFieldController,
                     maxLength: Constants.maxBookTitleLength,
                     decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.only(bottom: 4, top: 10),
+                      contentPadding: const EdgeInsets.only(bottom: 4, top: Constants.spaceBetweenTextAndUnderline),
                         labelText: 'notebook name',
                         errorText: currentErr,
                         errorMaxLines: Constants.errorMaxLines,
@@ -109,7 +109,7 @@ class _DialogContentState<T> extends State<_DialogContent> {
                   );
                 },
               ),
-              Spacer(),
+              const Spacer(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

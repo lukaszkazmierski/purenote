@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 abstract class AppTheme {
   ThemeData getTheme();
   Color get listTileIconColor;
-  TextStyle textStyle({double fontSize});
+  TextStyle textStyle({double fontSize, double height});
 }
 
 class LightTheme implements AppTheme {
@@ -16,7 +16,7 @@ class LightTheme implements AppTheme {
         accentColorBrightness: Brightness.dark,
         backgroundColor: const Color(0xff80cbc4),
         indicatorColor: const Color(0xff009688),
-
+        dividerColor: const Color( 0x1f000000 ),
         //Splash
         highlightColor: const Color(0x66bcbcbc),
         splashColor: const Color(0x66c8c8c8),
@@ -44,7 +44,6 @@ class LightTheme implements AppTheme {
             selectionHandleColor: Color(0xff4db6ac)),
 
         textTheme: TextTheme(
-
           //ListTile title text
           subtitle1: GoogleFonts.openSans(
             color: const Color(0xdd000000),
@@ -89,7 +88,8 @@ class LightTheme implements AppTheme {
   Color get listTileIconColor => const Color(0xdd000000);
 
   @override
-  TextStyle textStyle({double fontSize}) => GoogleFonts.openSans(fontSize: fontSize);
+  TextStyle textStyle({double fontSize, double height}) =>
+      GoogleFonts.openSans(fontSize: fontSize, height: height);
 }
 
 AppTheme lightTheme = LightTheme();

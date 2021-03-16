@@ -6,4 +6,5 @@ class Constants {
   static const int maxNoteTitleLength = 30;
 
   static const errorMaxLines = 2;
+  static const spaceBetweenTextAndUnderline = 10.0;
 }

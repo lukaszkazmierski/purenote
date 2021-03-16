@@ -7,7 +7,7 @@ abstract class ExceptionCodeTranslator {
 
 class ExceptionCodeTranslatorImpl implements ExceptionCodeTranslator {
   final Map<ExceptionCodeType, String> _mapExceptionCodeToMessage = {
-    ExceptionCodeType.invalidDataException: 'Book name must be between 1 and 30 characters!',
+    ExceptionCodeType.invalidDataException: 'Name must be between 1 and 30 characters!',
     ExceptionCodeType.itemAlreadyExists: 'The book with the entered name currently exists',
 
     ExceptionCodeType.unknownError: 'Validate the data or restart the application'
