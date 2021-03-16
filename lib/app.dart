@@ -10,6 +10,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Purenote',
       home: const SizedBox(),
       builder: ExtendedNavigator.builder<Router>(
           router: Router(),
