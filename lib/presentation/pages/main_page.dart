@@ -112,21 +112,10 @@ class SlidableListTile extends StatelessWidget {
       controller: slidableController,
       actionExtentRatio: 0.2,
       actionPane: const SlidableStrechActionPane(),
-        child: ListTileTheme(
-            iconColor: lightTheme.listTileIconColor,
-            child: ListTile(
-              title: Text(book.name),
-              leading: const Icon(Icons.book),
-              onTap: () {
-                ExtendedNavigator.of(context).push(Routes.bookWithNotesPage,
-                    arguments: BookWithNotesPageArguments(
-                        bookName: book.name));
-              },
-            )),
         secondaryActions: <Widget>[
           IconSlideAction(
             caption: 'Rename',
-            color: Colors.black45,
+            color: Theme.of(context).splashColor,
             icon: Icons.drive_file_rename_outline,
             onTap: () => showDialog(
                 context: context,
@@ -140,10 +129,22 @@ class SlidableListTile extends StatelessWidget {
           ),
           IconSlideAction(
             caption: 'Delete',
-            color: Color( 0xffd32f2f ),
+            color: Theme.of(context).colorScheme.error,
             icon: Icons.delete,
             onTap: () => context.read<BookBloc>().add(RemoveBook(book)),
           ),
-        ],);
+        ],
+      child: ListTileTheme(
+          iconColor: lightTheme.listTileIconColor,
+          child: ListTile(
+            title: Text(book.name),
+            leading: const Icon(Icons.book),
+            onTap: () {
+              ExtendedNavigator.of(context).push(Routes.bookWithNotesPage,
+                  arguments: BookWithNotesPageArguments(
+                      bookName: book.name));
+            },
+          )),
+    );
   }
 }
