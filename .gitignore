@@ -8,6 +8,7 @@
 .buildlog/
 .history
 .svn/
+.gradle/
 
 # IntelliJ related
 *.iml
@@ -48,3 +49,11 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Assets
+/assets/
+android/app/src/main/res/
+*.png
+
+
+
