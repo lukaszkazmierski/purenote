@@ -52,7 +52,7 @@ app.*.map.json
 
 # Assets
 /assets/
-android/app/src/main/res/
+/android/app/src/main/res/
 *.png
 
 

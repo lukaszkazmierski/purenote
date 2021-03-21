@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
 import 'package:notebook/core/utils/routes/router.gr.dart';
+import 'package:notebook/domain/repositories/local_settings.dart';
+import 'package:notebook/service_locator/service_locator.dart';
 
 
 class IntroPageState extends State<IntroPage> {
@@ -49,7 +51,11 @@ class IntroPageState extends State<IntroPage> {
     return IconButton(
       icon: const Icon(Icons.done, size: 35.0),
       color: const Color(0xff009688),
-      onPressed: () => ExtendedNavigator.of(context).pushAndRemoveUntil(Routes.mainPage, (route) => false),
+      onPressed: () {
+        locator.get<LocalSettings>().closeIntro();
+        ExtendedNavigator.of(context).pushAndRemoveUntil(Routes.mainPage, (route) => false);
+      }
+
     );
   }
 
