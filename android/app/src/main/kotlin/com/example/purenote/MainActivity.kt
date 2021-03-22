@@ -1,4 +1,4 @@
-package com.example.notebook
+package com.example.purenote
 
 import io.flutter.embedding.android.FlutterActivity
 
