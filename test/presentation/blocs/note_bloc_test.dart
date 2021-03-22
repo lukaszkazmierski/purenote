@@ -33,7 +33,7 @@ void main() {
           bloc.add(const AddingNewNote(note1));
           bloc.add(const AddingNewNote(note2));
         },
-        expect: [const NoteListUpdate()]);
+        expect: () => [const NoteListUpdate()]);
 
     blocTest('emits [NoteListUpdate] when remove note successful',
         build: () => locatorTest.get<NoteBloc>(),
@@ -42,7 +42,7 @@ void main() {
           final Note addedNote = (await bloc.getAllNotes).first;
           bloc.add(RemoveNote(addedNote));
         },
-        expect: [const NoteListUpdate()]);
+        expect: () => [const NoteListUpdate()]);
 
     blocTest('emits [NoteUpdate] when remove note successful',
         build: () => locatorTest.get<NoteBloc>(),
@@ -51,6 +51,6 @@ void main() {
           final Note addedNote = (await bloc.getAllNotes).first;
           bloc.add(UpdateNote(addedNote.copyWith(title: 'new title')));
         },
-        expect: [const NoteUpdated()]);
+        expect: () => [const NoteUpdated()]);
   });
 }

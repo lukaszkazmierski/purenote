@@ -21,7 +21,7 @@ void main() {
           bloc.add(const AddingNewBook(book1));
           bloc.add(const AddingNewBook(book2));
         },
-        expect: [const BookListUpdate()]);
+        expect: () =>  [const BookListUpdate()]);
 
 
     blocTest('emits [BookListUpdate] when remove book successful',
@@ -31,7 +31,7 @@ void main() {
           final List<Book> books = await bloc.notebookLocalDb.book.getAllItem();
           bloc.add(RemoveBook(books[0]));
         },
-        expect: [const BookListUpdate()]);
+        expect: () => [const BookListUpdate()]);
 
     blocTest('emits [BookListUpdate] when rename book successful',
         build: () => locatorTest.get<BookBloc>(),
@@ -40,6 +40,6 @@ void main() {
           final List<Book> books = await bloc.notebookLocalDb.book.getAllItem();
           bloc.add(RenameBook(book: books[0], name: 'otherBook'));
         },
-        expect: [const BookListUpdate()]);
+        expect: () => [const BookRenameUpdate()]);
   });
 }
