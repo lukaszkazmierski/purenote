@@ -1,16 +1,30 @@
-# notebook
+# Purenote
+Purenote is an open source app for creating and storing notes.
+Currently available on the Play store.
 
-A new Flutter project.
 
-## Getting Started
+## Features
+The application at this stage contains basic functionality.
 
-This project is a starting point for a Flutter application.
+### Todo
+- [] Encrypt note data
+- [] Export data of created notebooks and notes
+- [] Export data automatically at a specified time
+- [] Moving note/s to specific notebook
+- [] Select multiple notebooks/notes
+- [] Search bar 
+- [] Search on the notes page
 
-A few resources to get you started if this is your first Flutter project:
+## Bug Reports
+Purenote is constantly being developed and is not always perfect,
+so it's important to improve the application and fix bugs.
+In order to report issue use GitHub Issues section: 
+[https://github.com/lukaszkazmierski/purenote/issues](https://github.com/lukaszkazmierski/purenote/issues)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Contact
+Purenote is created and maintained by [Łukasz Kaźmierski](https://github.com/lukaszkazmierski)
+If you have questions not related to application issues, please contact me [appstomize@gmail.com](appstomize@gmail.com)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## License
+Purenote is released under the GNU Public License, V3.
+See [https://www.gnu.org/licenses/gpl-3.0.html](https://www.gnu.org/licenses/gpl-3.0.html), 
