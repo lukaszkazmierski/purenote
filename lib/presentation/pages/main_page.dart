@@ -40,8 +40,8 @@ class MainLayout extends StatelessWidget {
             barrierDismissible: false,
             builder: (_) {
               return WillPopScope(
-                  child: BookNameFormDialog<AddBookDialog>(),
-                  onWillPop: () async => false);
+                onWillPop: () async => false,
+                child: const BookNameFormDialog<AddBookDialog>(),);
             });
       }),
     );
@@ -122,9 +122,10 @@ class SlidableListTile extends StatelessWidget {
                 barrierDismissible: false,
                 builder: (_) {
                   return WillPopScope(
-                      child: BookNameFormDialog<RenameBookDialog>(
-                          book: book),
-                      onWillPop: () async => false);
+                    onWillPop: () async => false,
+                    child: BookNameFormDialog<RenameBookDialog>(
+                      book: book)
+                  );
                 }),
           ),
           IconSlideAction(

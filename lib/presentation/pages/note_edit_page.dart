@@ -1,10 +1,7 @@
 import 'dart:async';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:notebook/core/config/theme/app_themes.dart';
 import 'package:notebook/core/constants/constants.dart';
 import 'package:notebook/presentation/blocs/note_bloc/note_bloc.dart';
@@ -15,7 +12,7 @@ TextEditingController _titleTextController;
 TextEditingController _contentTextController;
 
 class NoteEditPage extends StatelessWidget {
-  final note;
+  final dynamic note;
 
   const NoteEditPage({@required this.note, Key key}) : super(key: key);
 

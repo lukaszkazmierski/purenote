@@ -1,5 +1,4 @@
 import 'package:moor_flutter/moor_flutter.dart';
-import 'package:notebook/core/constants/constants.dart';
 
 @DataClassName('Note')
 class NoteTable extends Table {
