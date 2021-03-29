@@ -2,18 +2,24 @@
 Purenote is an open source app for creating and storing notes.
 Currently available on the Play store.
 
+<div
+  class="store-badge"
+  data-name="Purenote"
+  data-google-play-url="https://play.google.com/store/apps/details?id=com.appstomize.purenote"
+></div>
+<script async src="https://cdn.jsdelivr.net/npm/store-badge@1/build/bundle.js"></script>
 
 ## Features
 The application at this stage contains basic functionality.
 
 ### Todo
-- [] Encrypt note data
-- [] Export data of created notebooks and notes
-- [] Export data automatically at a specified time
-- [] Moving note/s to specific notebook
-- [] Select multiple notebooks/notes
-- [] Search bar 
-- [] Search on the notes page
+- [ ] Encrypt note data
+- [ ] Export data of created notebooks and notes
+- [ ] Export data automatically at a specified time
+- [ ] Moving note/s to specific notebook
+- [ ] Select multiple notebooks/notes
+- [ ] Search bar 
+- [ ] Search on the notes page
 
 ## Bug Reports
 Purenote is constantly being developed and is not always perfect,
@@ -27,4 +33,6 @@ If you have questions not related to application issues, please contact me [apps
 
 ## License
 Purenote is released under the GNU Public License, V3.
-See [https://www.gnu.org/licenses/gpl-3.0.html](https://www.gnu.org/licenses/gpl-3.0.html), 
+See [LICENSE](https://github.com/lukaszkazmierski/purenote/blob/master/LICENSE)
+or
+[https://www.gnu.org/licenses/gpl-3.0.html](https://www.gnu.org/licenses/gpl-3.0.html), 

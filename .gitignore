@@ -21,6 +21,10 @@
 # is commented out by default.
 #.vscode/
 
+# Properties and keystore related
+*.jks
+*.properties
+
 # Flutter/Dart/Pub related
 **/doc/api/
 **/ios/Flutter/.last_build_id
