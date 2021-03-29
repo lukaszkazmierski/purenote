@@ -2,12 +2,7 @@
 Purenote is an open source app for creating and storing notes.
 Currently available on the Play store.
 
-<div
-  class="store-badge"
-  data-name="Purenote"
-  data-google-play-url="https://play.google.com/store/apps/details?id=com.appstomize.purenote"
-></div>
-<script async src="https://cdn.jsdelivr.net/npm/store-badge@1/build/bundle.js"></script>
+<a href="https://play.google.com/store/apps/details?id=com.appstomize.purenote"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Download Purenote on Google Play" height="120"></a>
 
 ## Features
 The application at this stage contains basic functionality.
