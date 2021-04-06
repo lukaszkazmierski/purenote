@@ -24,9 +24,14 @@ dependencies:
   flutter:
     sdk: flutter
   lint: ^1.5.1
-  moor_flutter: ^3.1.0
-  moor: ^3.4.0
+  moor_flutter: ^4.0.0
+  moor: ^4.1.0
+  encrypted_moor:
+    git:
+      url: https://github.com/simolus3/moor.git
+      path: extras/encryption
   shared_preferences: ^0.5.12+4
+  flutter_secure_storage: ^4.1.0
   google_fonts: ^1.1.2
   flutter_bloc: ^7.0.0
   dartz: ^0.9.2
@@ -44,7 +49,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   auto_route_generator: ^0.6.10
-  moor_generator: ^3.4.1
+  moor_generator: ^4.1.0
   build_runner: ^1.11.1
   mockito: ^4.1.4
   test: ^1.16.5
