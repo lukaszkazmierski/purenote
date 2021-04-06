@@ -32,7 +32,7 @@ class MainLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: NoteAppBar(title: bookName)(),
+      appBar: NoteAppBar(context: context, title: bookName)(),
       body: StreamBuilder(
           stream: context.read<NoteBloc>().watchAllNotes(bookName),
           builder: (BuildContext context, AsyncSnapshot<List<Note>> snapshot) {

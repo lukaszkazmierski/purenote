@@ -32,7 +32,7 @@ class MainLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: const NoteAppBar(title: 'Notebooks')(),
+      appBar: NoteAppBar(context: context, title: 'Notebooks')(),
       body: const _Body(),
       floatingActionButton: AddItemBtn(onPressed: () {
         showDialog(

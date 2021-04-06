@@ -39,7 +39,7 @@ class _MainLayoutState extends State<MainLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const NoteAppBar(title: '')(),
+        appBar: NoteAppBar(context: context, title: '')(),
         body: BlocBuilder<NoteBloc, NoteState>(
             builder: (BuildContext context, state) {
           return _Body(note: note);

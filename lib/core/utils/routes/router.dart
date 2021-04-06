@@ -3,6 +3,7 @@ import 'package:notebook/presentation/pages/book_with_notes_pages.dart';
 import 'package:notebook/presentation/pages/intro_page.dart';
 import 'package:notebook/presentation/pages/main_page.dart';
 import 'package:notebook/presentation/pages/note_edit_page.dart';
+import 'package:notebook/presentation/pages/settings_page.dart';
 
 @MaterialAutoRouter(
   routes: <AutoRoute>[
@@ -10,6 +11,7 @@ import 'package:notebook/presentation/pages/note_edit_page.dart';
     MaterialRoute(page: IntroPage),
     MaterialRoute(page: BookWithNotesPage),
     MaterialRoute(page: NoteEditPage),
+    MaterialRoute(page: SettingsPage)
   ]
 )
 class $Router {}
