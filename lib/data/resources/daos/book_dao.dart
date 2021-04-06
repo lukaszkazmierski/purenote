@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:moor_flutter/moor_flutter.dart';
+import 'package:encrypted_moor/encrypted_moor.dart';
 import 'package:notebook/core/exceptions/exception_code.dart';
 import 'package:notebook/core/exceptions/failure.dart';
 import 'package:notebook/data/resources/moor_config/moor_database.dart';
@@ -54,9 +55,9 @@ class BookDao extends DatabaseAccessor<MoorDatabase>
     final result = await (select(bookTable)
           ..where((tbl) => tbl.name.equals(itemName))
           ..limit(1))
-        .getSingle();
+        .get();
 
-    if (result != null) {
+    if (result.isNotEmpty) {
       final failure = locator.getWithParam<Failure>(ExceptionCodeType.itemAlreadyExists);
       return Left(failure);
     }
