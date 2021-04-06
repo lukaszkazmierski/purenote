@@ -8,7 +8,9 @@ Currently available on the Play store.
 The application at this stage contains basic functionality.
 
 ### Todo
-- [ ] Encrypt note data
+- [X] Encrypt local storage
+- [ ] Encrypt notebooks and notes
+- [ ] Secure access to applications (implement fingerprint/password or other methods)
 - [ ] Export data of created notebooks and notes
 - [ ] Export data automatically at a specified time
 - [ ] Moving note/s to specific notebook
