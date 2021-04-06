@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:notebook/core/exceptions/exception_code.dart';
 import 'package:notebook/core/exceptions/exception_code_translator.dart';
 import 'package:notebook/core/exceptions/failure.dart';
+import 'package:notebook/core/secure/db_encryption.dart';
 import 'package:notebook/data/resources/local_settings_impl.dart';
 import 'package:notebook/data/resources/notebook_local_db_impl.dart';
 import 'package:notebook/domain/repositories/local_settings.dart';
@@ -26,7 +27,7 @@ class Locator {
     _sl.registerFactoryParam<Failure, ExceptionCodeType, void>((ec, _) => Failure(ec));
     _sl.registerLazySingleton<ExceptionCode>(() => ExceptionCodeImpl());
     _sl.registerLazySingleton<ExceptionCodeTranslator>(() => ExceptionCodeTranslatorImpl());
-
+    _sl.registerSingleton<DbEncryption>(DbEncryption());
     final LocalSettings localSettings = LocalSettingsImpl();
     await localSettings();
     _sl.registerSingleton<LocalSettings>(localSettings);
