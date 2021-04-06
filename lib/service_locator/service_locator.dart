@@ -10,6 +10,7 @@ import 'package:notebook/domain/repositories/notebook_local_db.dart';
 import 'package:notebook/presentation/blocs/book_bloc/book_bloc.dart';
 import 'package:notebook/presentation/blocs/note_bloc/note_bloc.dart';
 import 'package:notebook/service_locator/environment.dart';
+import 'package:package_info/package_info.dart';
 
 class Locator {
    final _sl = GetIt.instance;
@@ -32,6 +33,8 @@ class Locator {
     await localSettings();
     _sl.registerSingleton<LocalSettings>(localSettings);
     _dbMode();
+    final PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    _sl.registerSingleton<PackageInfo>(packageInfo);
    }
 
    void _dbMode() {
