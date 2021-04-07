@@ -28,19 +28,23 @@ class Locator {
     _sl.registerFactoryParam<Failure, ExceptionCodeType, void>((ec, _) => Failure(ec));
     _sl.registerLazySingleton<ExceptionCode>(() => ExceptionCodeImpl());
     _sl.registerLazySingleton<ExceptionCodeTranslator>(() => ExceptionCodeTranslatorImpl());
-    _sl.registerSingleton<DbEncryption>(DbEncryption());
+    final DbEncryption dbEncryption = DbEncryption();
+    _sl.registerSingleton<DbEncryption>(dbEncryption);
     final LocalSettings localSettings = LocalSettingsImpl();
     await localSettings();
     _sl.registerSingleton<LocalSettings>(localSettings);
-    _dbMode();
+
+    await _dbMode(dbEncryption);
     final PackageInfo packageInfo = await PackageInfo.fromPlatform();
     _sl.registerSingleton<PackageInfo>(packageInfo);
    }
 
-   void _dbMode() {
+   Future<void> _dbMode(DbEncryption dbEncryption) async {
      switch (environment) {
        case Environment.prod:
-         _sl.registerSingleton<NotebookLocalDb>(NotebookLocalDbImpl());
+         await dbEncryption.checkKey();
+         final String pass = await dbEncryption.getDbPassword;
+         _sl.registerSingleton<NotebookLocalDb>(NotebookLocalDbImpl(pass));
          break;
        case Environment.test:
          _sl.registerSingleton<NotebookLocalDb>(NotebookLocalDbImpl.testing());

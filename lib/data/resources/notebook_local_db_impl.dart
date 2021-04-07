@@ -6,7 +6,7 @@ import 'package:notebook/data/resources/daos/db_actions.dart';
 class NotebookLocalDbImpl implements NotebookLocalDb  {
   final MoorDatabase _moorDatabase;
 
-  NotebookLocalDbImpl() : _moorDatabase = MoorDatabase();
+  NotebookLocalDbImpl(String pass) : _moorDatabase = MoorDatabase(pass);
 
   NotebookLocalDbImpl.testing() : _moorDatabase = MoorDatabase.testing();
 
