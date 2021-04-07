@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:notebook/core/utils/routes/router.gr.dart';
 
 class SettingsListTileModel {
   final Icon leading;
@@ -11,5 +10,6 @@ class SettingsListTileModel {
     @required this.leading,
     @required this.title,
     @required this.subtitle,
-    this.redirectToPage});
+    this.redirectToPage
+  });
 }

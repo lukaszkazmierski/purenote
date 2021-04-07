@@ -8,5 +8,6 @@ class AboutApplicationListTileModel {
   const AboutApplicationListTileModel({
     @required this.tile,
     @required  this.subtitle,
-    this.url});
+    this.url
+  });
 }

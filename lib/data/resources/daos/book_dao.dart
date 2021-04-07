@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:moor_flutter/moor_flutter.dart';
-import 'package:encrypted_moor/encrypted_moor.dart';
 import 'package:notebook/core/exceptions/exception_code.dart';
 import 'package:notebook/core/exceptions/failure.dart';
 import 'package:notebook/data/resources/moor_config/moor_database.dart';
