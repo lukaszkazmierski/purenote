@@ -13,7 +13,7 @@ part 'moor_database.g.dart';
 @UseMoor(tables: [NoteTable, BookTable], daos: [NoteDao, BookDao])
 class MoorDatabase extends _$MoorDatabase {
   MoorDatabase(String pass) : super(EncryptedExecutor.inDatabaseFolder(
-      path: 'db.sqlite', password: pass, logStatements: true));
+      path: 'db.sqlite', password: pass));
 
   MoorDatabase.testing() : super(VmDatabase.memory());
 
