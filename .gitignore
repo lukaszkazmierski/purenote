@@ -24,7 +24,6 @@
 # Properties and keystore related
 *.jks
 *.properties
-/lib/core/secure/
 
 # Flutter/Dart/Pub related
 **/doc/api/
