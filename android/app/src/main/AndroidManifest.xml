@@ -3,6 +3,8 @@
    <application
         android:label="Purenote"
         android:icon="@mipmap/app_icon"
+        android:allowBackup="false"
+        android:fullBackupContent="false"
         android:versionCode="1"
         android:versionName="1.0">
         <activity
