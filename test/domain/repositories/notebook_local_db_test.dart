@@ -168,7 +168,7 @@ void main() {
       expect(listOfNotes.length, 0);
     });
 
-    test('should convert books and notes to json', () async {
+    test('should convert books and notes toJson and toBase64', () async {
       //arrange
       //act
       const book1 = BookTableCompanion(name:  Value<String>('Recipes'));
@@ -204,10 +204,17 @@ void main() {
       expect(dbAsJson, isA<Map<String, dynamic>>());
 
       final notes = await notebookLocalDb.note.getAllItem();
-      expect(dbAsJson, {
-        book1.name.value: notes.where((x) => x.book == 'Recipes'),
-        book2.name.value: notes.where((x) => x.book == 'Meetings')
-      });
+
+      final currentDbDataAsJson = {
+        book1.name.value: notes.where((x) => x.book == 'Recipes').toList(),
+        book2.name.value: notes.where((x) => x.book == 'Meetings').toList()
+      };
+
+      expect(dbAsJson, currentDbDataAsJson);
+
+      final dbAsBase64 = notebookLocalDb.toBase64(dbAsJson);
+      final currentDbAsBase64 = notebookLocalDb.toBase64(currentDbDataAsJson);
+      expect(dbAsBase64, currentDbAsBase64);
 
     });
 
