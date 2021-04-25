@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:test/test.dart';
 import 'package:moor/moor.dart' hide isNotNull;
 import 'package:notebook/data/resources/moor_config/moor_database.dart';
@@ -5,7 +7,8 @@ import 'package:notebook/domain/repositories/notebook_local_db.dart';
 import '../../service_locator/service_locator.dart';
 
 void main() {
-
+  WidgetsFlutterBinding.ensureInitialized();
+  packageInfoMock();
   NotebookLocalDb notebookLocalDb;
   setUpAll(() {
     locatorTest.register();
@@ -210,3 +213,16 @@ void main() {
   });
 }
 
+void packageInfoMock() {
+  const MethodChannel('plugins.flutter.io/package_info').setMockMethodCallHandler((MethodCall methodCall) async {
+    if (methodCall.method == 'getAll') {
+      return <String, dynamic>{
+        'appName': 'ABC',
+        'packageName': 'A.B.C',
+        'version': '1.0.0',
+        'buildNumber': ''
+      };
+    }
+    return null;
+  });
+}
