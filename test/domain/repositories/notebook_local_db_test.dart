@@ -145,7 +145,7 @@ void main() {
       notebookLocalDb.note.deleteItem(listOfNotes[0]);
     });
 
-    test('should insert and delete book in database', () async {
+    test('should insert and delete notes in database', () async {
       //arrange
       //act
       const bookWithNotes = BookTableCompanion(name:  Value<String>('Important'));
@@ -166,6 +166,49 @@ void main() {
       await notebookLocalDb.note.deleteItem(listOfNotes[0]);
       listOfNotes = await notebookLocalDb.note.getAllItem();
       expect(listOfNotes.length, 0);
+    });
+
+    test('should convert books and notes to json', () async {
+      //arrange
+      //act
+      const book1 = BookTableCompanion(name:  Value<String>('Recipes'));
+      final note1 = NoteTableCompanion(
+          book: book1.name,
+          title: const Value<String>('Pizza'),
+          content: const Value<String>('This is a classic homemade pizza recipe, '
+              'including a pizza dough recipe, topping suggestions, and step-by-step '
+              'instructions with photos. Make perfect pizza at home! '));
+      final note2 = NoteTableCompanion(
+          book: book1.name,
+          title: const Value<String>('Chicken Fried Rice'),
+          content: const Value<String>('Chicken Fried Rice! This take-out classic is '
+              'an easy weeknight meal! Its made on the stovetop with chicken, eggs, '
+              'onions, carrots, peas, and rice.'));
+
+      const book2 = BookTableCompanion(name:  Value<String>('Meetings'));
+      final note3 = NoteTableCompanion(
+          book: book2.name,
+          title: const Value<String>('Meeting with friends'),
+          content: const Value<String>('Sunday April 26, 2021'));
+      //assert
+      expect(notebookLocalDb.note, isNot(null));
+      await notebookLocalDb.book.insertItem(book1);
+      await notebookLocalDb.note.insertItem(note1);
+      await notebookLocalDb.note.insertItem(note2);
+
+      await notebookLocalDb.book.insertItem(book2);
+      await notebookLocalDb.note.insertItem(note3);
+
+      final dbAsJson = await notebookLocalDb.toJson();
+      expect(dbAsJson, isNot(null));
+      expect(dbAsJson, isA<Map<String, dynamic>>());
+
+      final notes = await notebookLocalDb.note.getAllItem();
+      expect(dbAsJson, {
+        book1.name.value: notes.where((x) => x.book == 'Recipes'),
+        book2.name.value: notes.where((x) => x.book == 'Meetings')
+      });
+
     });
 
     test('should detect new notes and returned the matching to book name', () async {
@@ -211,6 +254,7 @@ void main() {
 
     });
   });
+
 }
 
 void packageInfoMock() {
