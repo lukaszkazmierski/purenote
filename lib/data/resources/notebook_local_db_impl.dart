@@ -13,8 +13,25 @@ class NotebookLocalDbImpl implements NotebookLocalDb  {
 
   @override
   DbActions<Book> get book => _moorDatabase.bookDao;
+
   @override
   DbActions<Note> get note => _moorDatabase.noteDao;
+
+  @override
+  Future<Map<String, dynamic>> toJson() async {
+    final Map<String, dynamic> dbAsJson= {};
+
+    final List<Book> books = await book.getAllItem();
+    final List<Note> notes = await note.getAllItem();
+
+    for(final Book gainedBook in books) {
+      final String bookName = gainedBook.name;
+      dbAsJson[bookName] = notes.where((x) => x.book == bookName).toList();
+      notes.removeWhere((x) => x.book == bookName);
+    }
+
+    return dbAsJson;
+  }
 
   @override
   Future<void> dispose() async {

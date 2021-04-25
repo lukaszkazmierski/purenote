@@ -6,5 +6,7 @@ abstract class NotebookLocalDb {
   DbActions<Book> get book;
   DbActions<Note> get note;
 
+  Future<Map<String, dynamic>> toJson();
+
   Future<void> dispose();
 }
