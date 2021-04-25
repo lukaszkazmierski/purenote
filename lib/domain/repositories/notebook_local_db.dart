@@ -8,5 +8,7 @@ abstract class NotebookLocalDb {
 
   Future<Map<String, dynamic>> toJson();
 
+  String toBase64(Map<String, dynamic> jsonDbData);
+
   Future<void> dispose();
 }

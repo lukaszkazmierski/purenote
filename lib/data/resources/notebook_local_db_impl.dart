@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:notebook/data/resources/moor_config/moor_database.dart';
 import 'package:notebook/domain/repositories/notebook_local_db.dart';
 import 'package:notebook/data/resources/daos/db_actions.dart';
@@ -29,8 +31,14 @@ class NotebookLocalDbImpl implements NotebookLocalDb  {
       dbAsJson[bookName] = notes.where((x) => x.book == bookName).toList();
       notes.removeWhere((x) => x.book == bookName);
     }
-
     return dbAsJson;
+  }
+
+  @override
+  String toBase64(Map<String, dynamic> jsonDbData) {
+    final dataAsString = json.encode(jsonDbData);
+    final Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    return stringToBase64.encode(dataAsString);
   }
 
   @override
